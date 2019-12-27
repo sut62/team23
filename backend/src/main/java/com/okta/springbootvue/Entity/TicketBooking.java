@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -38,18 +39,12 @@ public class TicketBooking {
 
 
     
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-    @JoinColumn(name = "USER_ID", insertable = true)
-    private User createdBy;
-
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = ManageMovie.class)
-    @JoinColumn(name = "managemovie_ID", insertable = true)
-    private ManageMovie movie;
-    
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = SeatType.class)
-    @JoinColumn(name = "SEAT_TYPE_ID", insertable = true)
+    @OneToOne
     private SeatType seatType;
-
+    @ManyToOne
+      private ManageMovie manageMovie;
+    @ManyToOne
+      private User user;
 	
 	
     

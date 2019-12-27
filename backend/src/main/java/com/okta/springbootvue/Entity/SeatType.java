@@ -29,8 +29,7 @@ public class SeatType {
 
     private @NonNull String name;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    private Collection<TicketBooking> booking;
+   
 
 	
 }
