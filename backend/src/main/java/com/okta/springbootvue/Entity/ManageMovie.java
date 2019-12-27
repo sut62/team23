@@ -33,9 +33,9 @@ public class ManageMovie {
     @Column(name = "MovieTime", unique = true, nullable = true)
     private @NonNull Date Time;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Movie.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = MovieAdd.class)
     @JoinColumn(name = "MOVIE_ID", insertable = true)
-    private Movie name;
+    private MovieAdd name;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Dub.class)
     @JoinColumn(name = "DUB_ID", insertable = true)
