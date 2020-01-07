@@ -8,6 +8,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -28,26 +31,25 @@ public class ManageMovie {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="managemovie_seq")
     @Column(name = "managemovie_ID", unique = true, nullable = true)
     private @NonNull Long id;
-    @Column(name = "MovieDay", unique = true, nullable = true)
-    private @NonNull Date Day;
-    @Column(name = "MovieTime", unique = true, nullable = true)
-    private @NonNull Date Time;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MovieAdd.class)
     @JoinColumn(name = "MOVIE_ID", insertable = true)
-    private MovieAdd name;
+    private MovieAdd movie;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Dub.class)
     @JoinColumn(name = "DUB_ID", insertable = true)
     private Dub lan;
 
-    
-
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
     @JoinColumn(name = "ROOM_ID", insertable = true)
     private Room ro;
 
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private @NonNull Date date;
+    
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = MovieTime.class)
+    @JoinColumn(name = "Time_ID", insertable = true)
+    private MovieTime time;
 
 
 }
