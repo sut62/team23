@@ -15,8 +15,7 @@ public class User{
         private @NonNull String password;
         private @NonNull String name;
         private @NonNull String tel;
-        private @NonNull String email;
-        private @NonNull String age;
+        private @NonNull int age;
 
 
 @ManyToOne
@@ -61,17 +60,10 @@ private Country country;
     return tel;
   }
 
-  public void setEmail(String email){
-    this.email=email;
-  }
-  public String getEmail(){
-    return email;
-  }
-
-  public void setAge(String age){
+  public void setAge(int age){
     this.age=age;
   }
-  public String getAge(){
+  public int getAge(){
     return age;
   }
 
