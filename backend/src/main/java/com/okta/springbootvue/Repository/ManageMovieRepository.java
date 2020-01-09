@@ -7,4 +7,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface ManageMovieRepository extends JpaRepository<ManageMovie, Long> {
+    ManageMovie findById(long id);
 }
