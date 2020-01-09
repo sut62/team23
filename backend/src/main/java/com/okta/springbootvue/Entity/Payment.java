@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.FetchType;
 
-//import java.util.Date;
+import java.util.Date;
 // import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,8 +34,9 @@ public class Payment {
     private @NonNull Long id;
     // private @NonNull Long totalPrice;
 
-    @JsonIgnoreProperties("payment")
+    
     //@JsonManagedReference
+    @JsonIgnoreProperties("payment")
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "TicketBooking_ID", nullable = false,unique = true)
     private TicketBooking ticketBooking;
@@ -50,7 +51,8 @@ public class Payment {
     @JoinColumn(name = "BANK_ID", insertable = true)
     private Bank bank;
 
-
+    @Column(name="PAYMENT_DATE")
+    private @NonNull Date paymentDate;
 
 
 }
