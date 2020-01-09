@@ -35,5 +35,6 @@ public class CountryController {
     public Collection<Country> country() {
         return countryRepository.findAll().stream().collect(Collectors.toList());
     }
+  
     
 }
