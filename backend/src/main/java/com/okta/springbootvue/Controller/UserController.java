@@ -1,6 +1,5 @@
 package com.okta.springbootvue.Controller;
 
-
 import com.okta.springbootvue.Entity.Country;
 import com.okta.springbootvue.Entity.User;
 import com.okta.springbootvue.Entity.Gender;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -39,10 +39,19 @@ public class UserController {
         return userRepository.findAll().stream().collect(Collectors.toList());
     }
     @GetMapping("/user/check/{username}")
-    public User checkRegister(@PathVariable String username){
+    public User checkUser(@PathVariable String username){
         return userRepository.findByUsername(username);
 
     }
+
+    @GetMapping("/user/{id}")
+    public Optional<User> Users(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user;
+    }
+    @GetMapping("/user/{username}/{password}")
+    public User Login(@PathVariable String username, @PathVariable String password){
+        return userRepository.findByUsernameAndPassword(username,password);}
 
     @PostMapping("/user/{username}/{password}/{gender_id}/{name}/{job_id}/{age}/{country_id}/{tel}")
     public User newUser(User newUser,
