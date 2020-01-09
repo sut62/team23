@@ -28,7 +28,7 @@ public class ManageMovieController {
     @Autowired
     private final ManageMovieRepository manageMovieRepository;
     @Autowired
-    private MovieAddRepository movieAddRepository;
+    private MovieAddRepository movieaddRepository;
     @Autowired
     private DubRepository dubRepository;
     @Autowired
@@ -36,11 +36,11 @@ public class ManageMovieController {
     @Autowired
     private MovieTimeRepository movieTimeRepository;
 
-    ManageMovieController(ManageMovieRepository manageMovieRepository, MovieAddRepository movieAddRepository,
+    ManageMovieController(ManageMovieRepository manageMovieRepository, MovieAddRepository movieaddRepository,
             DubRepository dubRepository, RoomRepository roomRepository, MovieTimeRepository movieTimeRepository) {
 
         this.manageMovieRepository = manageMovieRepository;
-        this.movieAddRepository = movieAddRepository;
+        this.movieaddRepository = movieaddRepository;
         this.dubRepository = dubRepository;
         this.roomRepository = roomRepository;
         this.movieTimeRepository = movieTimeRepository;
@@ -52,11 +52,11 @@ public class ManageMovieController {
         return manageMovieRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/managemovie/{movie_id}/{dub_id}/{room_id}/{movie_time}/{movie_day}")
-    public ManageMovie newManageMovie(ManageMovie newManageMovie, @PathVariable long movie_id,
+    @PostMapping("/managemovie/{id}/{dub_id}/{room_id}/{movie_time}/{movie_day}")
+    public ManageMovie newManageMovie(ManageMovie newManageMovie, @PathVariable long id,
             @PathVariable long dub_id, @PathVariable long room_id, @PathVariable String movie_day, @PathVariable long movie_time) {
 
-        MovieAdd movieAdd = movieAddRepository.findById(movie_id);
+        MovieAdd movieAdd = movieaddRepository.findById(id);
         Dub lan = dubRepository.findById(dub_id);
         Room ro = roomRepository.findById(room_id);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
