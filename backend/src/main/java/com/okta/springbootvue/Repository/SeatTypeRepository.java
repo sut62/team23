@@ -1,5 +1,6 @@
 package com.okta.springbootvue.Repository;
 
+
 import com.okta.springbootvue.Entity.SeatType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
