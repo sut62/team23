@@ -1,5 +1,6 @@
 package com.okta.springbootvue.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
@@ -17,7 +18,6 @@ public class MovieAdd{
         private @NonNull String actor;
         private @NonNull String studio;
         private @NonNull String length;
-        private @NonNull Date release;
 
 
 @ManyToOne
@@ -28,7 +28,7 @@ private Employee employee;
   private MovieRate rate;
 @ManyToOne
 private SystemType systemtype;
-  
+
   public void setId(Long id){
     this.id = id;
   }
@@ -76,13 +76,6 @@ private SystemType systemtype;
   }
   public String getLength(){
     return length;
-  }
-
-  public void setRelease(Date release){
-    this.release = release;
-  }
-  public Date getRelease(){
-    return release;
   }
 
   public void setEmployee(Employee employee){
