@@ -7,6 +7,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import java.util.Collection;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 @Data
