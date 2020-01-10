@@ -7,5 +7,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface MovieAddRepository extends JpaRepository<MovieAdd, Long> {
-
+    MovieAdd findById(long id);
 }
