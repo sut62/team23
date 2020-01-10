@@ -28,6 +28,7 @@ public class Food {
 	@Column(name="FOOD_ID",unique = true, nullable = true)
 	private @NonNull Long id;
 	private @NonNull String name;
+	private @NonNull int price;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	// mappedBy  = "rentCustomer"

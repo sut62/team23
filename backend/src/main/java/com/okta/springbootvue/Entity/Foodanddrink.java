@@ -17,7 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-import com.okta.springbootvue.Entity.Employee;;
+import com.okta.springbootvue.Entity.Employee;
 
 @Data
 @Entity
@@ -30,13 +30,10 @@ public class Foodanddrink {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FoodAndDrink_seq")
     @Column(name = "FoodAndDrink_ID", unique = true, nullable = true)
     private @NonNull Long id;
-
-    @Column(name="BUY_DATE")
-    private @NonNull Date buyDate;
-
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
-    @JoinColumn(name = "EMPLOYEE_ID", insertable = true)
-    private Employee employee;
+    
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+    @JoinColumn(name = "USER_ID", insertable = true)
+    private User user;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Drink.class)
     @JoinColumn(name = "DRINK_ID", insertable = true)
@@ -45,4 +42,10 @@ public class Foodanddrink {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Food.class)
     @JoinColumn(name = "FOOD_ID", insertable = true)
     private Food food;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
+    @JoinColumn(name = "EMPLOYEE_ID", insertable = true)
+    private Employee employee;
+    
+
 }
