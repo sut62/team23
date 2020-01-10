@@ -26,8 +26,8 @@ public class Drink {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="DRINK_SEQ")
     @Column(name="DRINK_ID",unique = true, nullable = true)
     private @NonNull Long id;
-
     private @NonNull String name;
+    private @NonNull int price;
 
     @OneToMany(fetch = FetchType.EAGER)
     // mappedBy  = "createdBy"
