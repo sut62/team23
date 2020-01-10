@@ -39,8 +39,8 @@ public class TicketBooking {
     
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-   // @JoinColumn(name = "USER_ID", insertable = true)
-    private User createdBy;
+    @JoinColumn(name = "USER_ID", insertable = true)
+    private User user;
 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = ManageMovie.class)
