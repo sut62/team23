@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,14 +25,8 @@ public class FoodController {
     }
 
     @GetMapping("/food")
-    public Collection<Food> food() {
+    public Collection<Food> foods() {
         return foodRepository.findAll().stream().collect(Collectors.toList());
     }
-
-    /*@GetMapping("/food/{id}")
-    public Optional<Food> Customers(@PathVariable Long id) {
-        Optional<Customer> customer = customerRepository.findById(id);
-        return customer;
-    }*/
 
 }
