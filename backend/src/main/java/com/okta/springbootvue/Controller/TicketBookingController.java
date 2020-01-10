@@ -46,9 +46,9 @@ public class TicketBookingController {
         return ticketBookingRepository.findAll().stream().collect(Collectors.toList());
     }
     ///{movie_id}
-    @PostMapping("/ticketBooking/{movie_id}/{movie_date}/{movie_time}/{seat}")
+    @PostMapping("/ticketBooking/{user_id}/{movie_id}/{movie_date}/{movie_time}/{seat}")
     public TicketBooking newTicketBookingl(TicketBooking newTicketBooking,
-    //@PathVariable long id,
+    @PathVariable long user_id,
     @PathVariable long movie_id,
     @PathVariable long movie_date,
     @PathVariable long movie_time,
@@ -58,13 +58,13 @@ public class TicketBookingController {
 
    
    
-    //User createdBy = userRepository.findById(user_id);
+    User user = userRepository.findById(user_id);
     ManageMovie movie = manageMovieRepository.findById(movie_id);
     ManageMovie date = manageMovieRepository.findById(movie_date);
     ManageMovie time = manageMovieRepository.findById(movie_time);
     SeatType type = seatTypeRepository.findById(seat);
 
-    //newTicketBooking.setCreatedBy(createdBy);
+    newTicketBooking.setUser(user);
     newTicketBooking.setMovie(movie);
     newTicketBooking.setDate(date);
     newTicketBooking.setTime(time);
