@@ -1,38 +1,44 @@
 package com.okta.springbootvue.Controller;
 
-import com.okta.springbootvue.Entity.TicketBooking;
-import com.okta.springbootvue.Entity.Payment;
 import com.okta.springbootvue.Entity.PaymentOption;
+import com.okta.springbootvue.Entity.TicketBooking;
 import com.okta.springbootvue.Entity.Bank;
+import com.okta.springbootvue.Entity.Payment;
 import com.okta.springbootvue.Repository.PaymentOptionRepository;
 import com.okta.springbootvue.Repository.TicketBookingRepository;
 import com.okta.springbootvue.Repository.PaymentRepository;
 import com.okta.springbootvue.Repository.BankRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
-// @CrossOrigin(origins = "*")
-// @RestController
+import java.net.URLDecoder;
+
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class PaymentController {
-
     @Autowired
-    private PaymentRepository paymentRepository;
+    private final PaymentRepository paymentRepository;
     @Autowired
     private TicketBookingRepository ticketBookingRepository;
     @Autowired
@@ -40,48 +46,59 @@ public class PaymentController {
     @Autowired
     private BankRepository bankRepository;
 
-
-    PaymentController(PaymentRepository paymentRepository){
+    PaymentController (PaymentRepository paymentRepository){
         this.paymentRepository = paymentRepository;
     }
-    
+
     @GetMapping("/payment")
-    public Collection<Payment> payment(){
+    public Collection<Payment> Payments(){
+        
         return paymentRepository.findAll().stream().collect(Collectors.toList());
-    }
-
-
-    @PostMapping("/paymentPost/{ticketbooking_id}/{paymentoption_id}/{bank_id}")
-    public Payment newPayment(Payment newPayment,   @PathVariable long bank_id,
-                                                    @PathVariable long paymentoption_id,
-                                                    @PathVariable long ticketbooking_id) {
 
         
-         Payment errorPayment = new Payment();
-            TicketBooking ticketBooking = ticketBookingRepository.findById(ticketbooking_id);
-            newPayment.setTicketBooking(ticketBooking);
+    }
 
-            // if(Payment.getPayment() != null){
-            //     return errorPayment ;
-            //  } 
+    @GetMapping("/payment/{id}")
+    public Optional<Payment> Payments(@PathVariable Long id) {
+        Optional<Payment> payment = paymentRepository.findById(id);
+        return payment;
+    }  
 
-            // else{
-                
-                PaymentOption paymentOption = paymentOptionRepository.findById(paymentoption_id);
-                Bank bank = bankRepository.findById(bank_id);
-                //TicketBooking ticketBooking = ticketBookingRepository.findById(ticketbooking_id);
+    @RequestMapping(value = "/paymentPost/{ticketbooking_id}/{paymentoption_id}/{linepayEmail}/{bank_id}/{cardNumber}/{securityCode}/{paypalEmail}",method = RequestMethod.POST)
+    public Payment newPayment(  @PathVariable Long ticketbooking_id,
+                                @PathVariable Long paymentoption_id,
+                                @PathVariable Long bank_id,
+                                @PathVariable String linepayEmail,
+                                @PathVariable String cardNumber,
+                                @PathVariable String securityCode,
+                                @PathVariable String paypalEmail,
+                                @RequestBody Map<String, String> body) {
 
-                newPayment.setTicketBooking(ticketBooking);
-                newPayment.setPaymentOption(paymentOption);
-                newPayment.setBank(bank);
-			
-                newPayment.setPaymentDate(new Date());
-            
-                return paymentRepository.save(newPayment);
-            //}
-            
+        Payment newPayment = new Payment();
 
-         }	
-    
+        PaymentOption PaymentOption = paymentOptionRepository.findById(Long.valueOf(body.get("paymentoption_id")).longValue());
+        TicketBooking TicketBooking = ticketBookingRepository.findById(Long.valueOf(body.get("ticketbooking_id")).longValue());
+        Bank Bank = bankRepository.findById(Long.valueOf(body.get("bank_id")).longValue());
 
+           newPayment.setCardNumber(body.get("cardNumber"));
+           newPayment.setSecurityCode(body.get("securityCode"));
+           newPayment.setLinepayEmail(body.get("linepayEmail"));
+           newPayment.setPaypalEmail(body.get("paypalEmail"));
+
+           newPayment.setTicketBooking(TicketBooking);
+           newPayment.setPaymentOption(PaymentOption);
+           newPayment.setBank(Bank);
+
+           newPayment.setPaymentDate(new Date());
+           
+          System.out.println(TicketBooking);
+          System.out.println(PaymentOption);
+          System.out.println(Bank);
+          System.out.println(newPayment);
+
+
+
+        
+        return paymentRepository.save(newPayment) ;
+    }
 }

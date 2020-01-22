@@ -43,6 +43,26 @@
         </div>
       </v-col>
     </v-row>
+
+    <div v-if="Payment.paymentOption == 1">
+
+          <v-row justify="center">
+      <v-col cols="6">
+
+          <v-text-field
+            class="font"
+            outlined
+            label="Line pay Email"
+            v-model="Payment.linepayEmail"
+            :rules="[(v) => !!v || 'Emai Address']"
+            required
+          ></v-text-field>
+
+          </v-col>
+      
+    </v-row>
+
+    </div>
    
 
     <div v-if="Payment.paymentOption == 2">
@@ -66,8 +86,55 @@
       
     </v-row>
 
+    <v-row justify="center">
+                    <v-col cols="5">
+                      <v-text-field
+                              class="font"
+                              outlined
+                              label="หมายเลขบัตรเครดิต/เดบิต"
+                              v-model="Payment.cardNumber"
+                              :rules="[(v) => !!v || 'กรุณากรอกหมายเลขบัตรเครดิต/เดบิต']"
+                              required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="1">
+                      <v-text-field
+                              class="font"
+                              outlined
+                              label="Security Code (CVV2)"
+                              v-model="Payment.securityCode"
+                              :rules="[(v) => !!v || 'last 3 digits on the back of card']"
+                              required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+
+
     
     </div>
+
+    <div v-if="Payment.paymentOption == 3">
+
+          <v-row justify="center">
+      <v-col cols="6">
+
+          <v-text-field
+            class="font"
+            outlined
+            label="Paypal Email"
+            v-model="Payment.paypalEmail"
+            :rules="[(v) => !!v || 'Emai Address']"
+            required
+          ></v-text-field>
+
+          </v-col>
+      
+    </v-row>
+
+    </div>
+
+
 
 
 </v-form>
@@ -94,17 +161,19 @@ export default {
         ticketBooking: "",
         paymentOption: "",
         bank: 0,
-        
-        
-        
-        
-
+        linepayEmail: "",
+        cardNumber: "",
+        securityCode: "",
+        paypalEmail: ""
       },
+
       check: false,
       check2: false,
       val:"",
+
       components: {
       },
+
       picker: new Date().toISOString().substr(0, 10),
       valid: false,
       pclear: false,
@@ -117,9 +186,8 @@ export default {
     };
     
   },
+  
   methods: {
-
-
     // get1() {
     //   http
     //     .get("/payment/")
@@ -132,7 +200,6 @@ export default {
     //     });
     // },
     /* eslint-disable no-console */
-
     // ดึงข้อมูล Employee ใส่ combobox
     
    getTicketBookings() {
@@ -169,20 +236,11 @@ export default {
         });
     },
     
-    
-    // ดึงข้อมูล Video ใส่ combobox
-    
-
-    
-    
     savePayment() {
       http
         .post(
-          "/paymentPost/" +
-            this.Payment.ticketBooking + "/" +
-            this.Payment.paymentOption + "/" + 
-            this.Payment.bank,
-            this.Payment
+           "/paymentPost",
+           this.payment
         )
         .then(response => {
           console.log(response);
@@ -220,3 +278,26 @@ export default {
 };
 
 </script>
+          // "/paymentPost"+"/"+
+          // this.Payment.ticketBooking + "/" +
+          // this.Payment.paymentOption + "/" + 
+          // this.Payment.linepayEmail ,
+          // "/paymentPost"+"/"+
+          // this.Payment.ticketBooking + "/" +
+          // this.Payment.paymentOption + "/" + 
+          // this.Payment.bank + "/" +
+          // this.Payment.cardNumber + "/" +
+          // this.Payment.securityCode,
+          // "/paymentPost"+"/"+
+          // this.Payment.ticketBooking + "/" +
+          // this.Payment.paymentOption + "/" + 
+          // this.Payment.paypalEmail,
+          // // this.Payment
+
+            // this.Payment.ticketBooking + "/" +
+            // this.Payment.paymentOption + "/" + 
+            // this.Payment.linepayEmail + "/" +
+            // this.Payment.bank + "/" +
+            // this.Payment.cardNumber + "/" +
+            // this.Payment.securityCode + "/" +
+            // this.Payment.paypalEmail,
