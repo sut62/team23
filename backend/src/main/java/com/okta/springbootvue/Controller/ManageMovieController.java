@@ -52,9 +52,9 @@ public class ManageMovieController {
         return manageMovieRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/managemovie/{id}/{dub_id}/{room_id}/{movie_time}/{movie_day}")
+    @PostMapping("/managemovie/{id}/{dub_id}/{room_id}/{movie_time}/{note}/{movie_day}")
     public ManageMovie newManageMovie(ManageMovie newManageMovie, @PathVariable long id,
-            @PathVariable long dub_id, @PathVariable long room_id, @PathVariable String movie_day, @PathVariable long movie_time) {
+            @PathVariable long dub_id, @PathVariable long room_id,@PathVariable long movie_time , @PathVariable String note, @PathVariable String movie_day ) {
 
         MovieAdd movieAdd = movieaddRepository.findById(id);
         Dub lan = dubRepository.findById(dub_id);
@@ -72,6 +72,7 @@ public class ManageMovieController {
         newManageMovie.setLan(lan);
         newManageMovie.setRo(ro);
         newManageMovie.setTime(time);
+        newManageMovie.setNote(note);
 
         return manageMovieRepository.save(newManageMovie);
 
