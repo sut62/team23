@@ -5,21 +5,38 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
 import lombok.*;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 @Entity
+@Data
+@NoArgsConstructor
 
 public class MovieAdd{
     @Id
     @SequenceGenerator(name="addseq",sequenceName="addseq") 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="addseq")
         private @NonNull Long id;
-        private @NonNull String name;
-        private @NonNull String synopsis;
-        private @NonNull String director;
-        private @NonNull String actor;
-        private @NonNull String studio;
-        private @NonNull String length;
 
+        @NotNull
+        private  String name;
+        
+        @NotNull
+        @Size(min = 10, max = 500, message = "Synopsis must be between 10 and 500 characters")
+        private String synopsis;
 
+        private @NotNull String director;
+
+        private @NotNull String actor;
+
+        private @NotNull String studio;
+
+        @Min(value = 60, message = "length should not be less than 60")
+        @Max(value = 500, message = "length should not be greater than 500")
+        private @NotNull int length;
+        
 @ManyToOne
 private Employee employee;
 @ManyToOne
@@ -71,10 +88,10 @@ private SystemType systemtype;
     return studio;
   }
 
-  public void setLength(String length){
+  public void setLength(int length){
     this.length=length;
   }
-  public String getLength(){
+  public int getLength(){ 
     return length;
   }
 
