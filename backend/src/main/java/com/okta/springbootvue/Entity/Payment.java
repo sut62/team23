@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 import com.okta.springbootvue.Entity.TicketBooking;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,7 +34,7 @@ public class Payment {
     @SequenceGenerator(name = "PAYMENT_SEQ", sequenceName = "PAYMENT_SEQ")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAYMENT_SEQ")
     @Column(name = "PAYMENT_ID", unique = true, nullable = true)
-    private @NonNull Long id;
+    private @NotNull Long id;
     // private @NonNull Long totalPrice;
 
     
@@ -53,6 +56,23 @@ public class Payment {
 
     @Column(name="PAYMENT_DATE")
     private @NonNull Date paymentDate;
+
+    @Pattern(regexp = "\\d{12}")
+    @NotNull
+    private String cardNumber;
+
+    @Pattern(regexp = "\\d{3}")
+    @NotNull
+    private String securityCode;
+
+    @Email (message = "Email should be valid")
+    @NotNull
+    private String linepayEmail;
+
+    @Email (message = "Email should be valid")
+    @NotNull
+    private String paypalEmail;
+
 
 
 }
