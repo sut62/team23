@@ -92,6 +92,17 @@
             solo
           ></v-select>
           </v-col>
+          
+          <v-col cols="12" sm="12" md="12">
+          <v-text-field
+            label="หมายเหตุ"
+            v-model="managemovie.notes"
+            :rules="[(v) => !!v || 'Item is required']"
+            required
+            single-line
+            solo
+          ></v-text-field>
+        </v-col>
 
 
         <v-col class="center" cols="12" sm="12">
@@ -113,15 +124,16 @@ export default {
     room: [],
     movieTime: [],
     date: new Date().toISOString().substr(0, 10),
-      dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
-      menu1: false,
+    dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+    menu1: false,  
     managemovie: [
       {
       movie_id: "",
       dub_id: "",
       room_id: "",
-      movie_time: "" 
-    }
+      movie_time: "",
+      notes: ""
+      }
     ]
     };
   },
@@ -193,7 +205,10 @@ export default {
             "/" + 
             this.managemovie.movie_time +
             "/" + 
-            this.date,this.managemovie
+            this.managemovie.notes+
+            "/" +
+            this.managemovie.date
+
         )
         .then(response => {
           console.log(response);
