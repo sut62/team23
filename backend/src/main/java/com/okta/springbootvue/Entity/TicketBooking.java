@@ -8,10 +8,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-
-
-
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -21,8 +20,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
 @Table(name="TicketBooking")
 public class TicketBooking {
@@ -30,12 +29,22 @@ public class TicketBooking {
     @Id
     @SequenceGenerator(name="ticket_booking_seq",sequenceName="ticket_booking_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ticket_booking_seq")
-    @Column(name = "Ticket_Booking_ID", unique = true, nullable = true)
-    private @NonNull Long id;
-    private @NonNull Date bookingDate;
+    @Column(name = "TicketBooking_ID", unique = true, nullable = true)
+    
+    private Long id;
+
     
     
-   
+    @Size(max = 50)
+    //@Column(name = "Note")
+    private String note;
+
+    
+    @NotNull
+    @Column(name = "Booking_Date")
+    private Date bookingDate;
+
+
     
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
@@ -65,4 +74,12 @@ public class TicketBooking {
 
 
 
-}
+	
+	}
+
+
+
+	
+
+
+
