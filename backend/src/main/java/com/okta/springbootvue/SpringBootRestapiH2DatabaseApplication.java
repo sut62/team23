@@ -35,7 +35,7 @@ public static void main(String[] args) {
 
 		Stream.of("ชาย","หญิง","LGBT").forEach(gen -> {
 			Gender gender = new Gender();
-			gender.setGender(gen);
+			gender.setGender_name(gen);
 			genderRepository.save(gender);
 		});
 
