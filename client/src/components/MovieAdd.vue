@@ -260,7 +260,33 @@ export default {
         });
     },
      saveMovieAdd() {
+      if (this.movieadd.employeeId==null || this.movieadd.name ==null|| 
+        this.movieadd.moviegenreId ==null || this.movieadd.synopsis==null ||
+        this.movieadd.director==null ||
+        this.movieadd.actor==null|| this.movieadd.studio==null ||
+        this.movieadd.movierateId==null || this.movieadd.length==null  || this.movieadd.systemtypeId==null){
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+      } else {
+        this.checkName();
+      }
+    },
+
+    checkName() {
       http
+        .get("/movieadd/check/" + this.movieadd.name)
+        .then(res => {
+          if (!res.data) {
+            this.add();
+          } else {
+            alert("ชื่อหนังเรื่องนี้ถูกใช้แล้ว!");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    add() {
+         http
         .post(
           "/movieadd/" +
             this.movieadd.employeeId +
@@ -284,16 +310,14 @@ export default {
             this.movieadd.systemtypeId,
           this.movieadd
         )
-        .then(response => {
+          .then(response => {
           console.log(response);
-          alert("บันทึกสำเร็จ");
-          //this.$router.push("/viewscholarship");
+          alert("บันทึกข้อมูลสำเร็จ");
+          window.location.reload()
         })
         .catch(e => {
-        alert("บันทึกไม่สำเร็จ");
           console.log(e);
         });
-      this.submitted = true;
     },
     clear() {
       this.$refs.form.reset();
