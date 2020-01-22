@@ -1,11 +1,19 @@
 package com.okta.springbootvue.Entity;
 
-import lombok.*;
+//import lombok.*;
 
 import javax.persistence.Id;
 //import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+//import javax.persistence.*;
+
 
 //import java.util.Collection;
 
@@ -24,8 +32,16 @@ public class SeatType {
     @SequenceGenerator(name="seat_type_seq",sequenceName="seat_type_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seat_type_seq")
     @Column(name="SEAT_TYPE_ID",unique = true, nullable = true)
-    private @NonNull Long id;
-    private @NonNull String seat;
+    @NotNull
+    private Long id;
+
+
+    @NotNull
+    @Pattern(regexp = "[AB]\\d{1}")
+    @Column(name = "Seat")
+    private  String seat;
+
+    
 
 
 
