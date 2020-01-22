@@ -41,6 +41,12 @@ public class MovieAddController {
         this.movieaddRepository = movieaddRepository;
     }
 
+    @GetMapping("/movieadd/check/{name}")
+    public MovieAdd checkMovieAdd(@PathVariable String name){
+        return movieaddRepository.findByName(name);
+
+    }
+
     @GetMapping("/movieadd")
     public Collection<MovieAdd> movieadd() {
         return movieaddRepository.findAll().stream().collect(Collectors.toList());
@@ -55,7 +61,7 @@ public class MovieAddController {
                         @PathVariable String actor,
                         @PathVariable String studio,                       
                         @PathVariable long rate_id,
-                        @PathVariable String length,
+                        @PathVariable int length,
                         @PathVariable long systemtype_id
                         ) {
 
