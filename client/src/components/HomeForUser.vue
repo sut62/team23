@@ -1,20 +1,11 @@
 <template>
-  <v-app id="keep">
+
+  <v-app>
     <v-navigation-drawer v-model="drawer" app temporary>
       <v-list dense>
-        <v-list-item @click="goHomeForUser">
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider inset></v-divider>
-        
         <v-list-item @click="goTicketBooking">
           <v-list-item-action>
-            <v-icon light>mdi-paper-roll</v-icon>
+            <i class="material-icons">local_activity</i>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>จองตั๋วภาพยนตร์</v-list-item-title>
@@ -24,7 +15,7 @@
         <v-divider inset></v-divider>
         <v-list-item @click="goPostPayment">
           <v-list-item-action>
-            <v-icon light>mdi-wrench</v-icon>
+            <i class="material-icons">local_atm</i>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>ชำระเงิน</v-list-item-title>
@@ -38,7 +29,7 @@
 
         <v-list-item @click="logout">
           <v-list-item-action>
-            <v-icon light>mdi-logout</v-icon>
+            <i class="material-icons">clear</i>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>ออกจากระบบ</v-list-item-title>
@@ -48,12 +39,13 @@
     </v-navigation-drawer>
 
     <v-app-bar app color="amber" light clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"><i class="material-icons">menu</i></v-app-bar-nav-icon>
       <v-toolbar-title>
         <v-icon light>mdi-account</v-icon>
+        <span
+        class="black--text"
+      >ยินดีต้อนรับคุณ {{this.user.name}}</span>
         <span class="title ml-3 mr-5">
-          
-          
         </span>
       </v-toolbar-title>
     </v-app-bar>
@@ -62,6 +54,9 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col class="text-center">
+           <template v-if="content === 'userhome'">
+              <UserProfile :user="user" />
+           </template>
             <template v-if="content === 'HomeForUser'">
               <HomeForUser :user="user" />
             </template>
@@ -89,12 +84,13 @@ import http from "../http-common";
 
 import TicketBookingUI from "../components/TicketBookingUI";
 import PostPayment from "../components/PostPayment"
+import UserProfile from "../components/UserProfile"
 
 export default {
   components: {
     TicketBookingUI,
     PostPayment,
-    
+    UserProfile,
   },
   mounted() {
     this.user.id = this.$route.params.id;
@@ -123,8 +119,8 @@ export default {
       this.content = "PostPayment";
       this.drawer = false;
     },
-    goHomeForUser() {
-      this.content = "HomeForUser";
+    goUserProfile() {
+      this.content = "UserProfile";
       this.drawer = false;
     },
     getUser() {
