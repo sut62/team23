@@ -43,7 +43,7 @@
       <v-select
           v-model="selectGender"
           :items="Gender"
-          item-text="gender"
+          item-text="gender_name"
           item-value="gender_id"
           label="Gender"
           solo
@@ -95,7 +95,15 @@
     </th><v-btn color="#FF6262" width="100" router-link to="/" >หน้าหลัก</v-btn></tr>
     
     </table>
-          
+          <div v-if = "clickRegister == true">
+          <div v-if = "registerCheck == true">
+            <v-alert type="success">Register Completed</v-alert>
+          </div>
+        <div v-if = "registerCheck == false">
+          <v-alert type="error">Can't Register</v-alert>
+        </div>
+      
+        </div>
 </v-form>
       </v-card>
  
@@ -121,6 +129,9 @@ export default {
     Jobs : [],
     Country : [],
     Gender : [],
+     registerCheck: false,
+      clickRegister: false,
+      
   };
   },
   methods: {
@@ -161,40 +172,43 @@ export default {
          },
  
     SaveRe() {
+          this.clickRegister = true;
       if (this.username==null || this.pw ==null|| 
         this.selectGender==null || this.name==null ||
         this.selectJob==null ||
         this.age==null|| this.selectCountry==null ||
         this.tel==null){
-        alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+        //alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+       
       } else {
         this.checkUsername();
       }
     },
 
-    checkUsername() {
+    checkUsername() {this.registerCheckUsernae = false;
       http
         .get("/user/check/" + this.username)
         .then(res => {
           if (!res.data) {
-            this.registered();
-          } else {
-            alert("Username ถูกใช้แล้ว!");
-          }
+            this.registered();}
+            else{
+              alert("Username ถูกใช้ไปแล้ว")
+            }
         })
         .catch(e => {
           console.log(e);
         });
     },
     registered() {
+      this.registerCheck = true;
          http
         .post("/user/" +
           this.username+"/"+this.pw+"/"+this.selectGender
           +"/"+this.name+"/"+this.selectJob+"/"+this.age+"/"+this.selectCountry+"/"+this.tel)
         .then(response => {
           console.log(response);
-          alert("บันทึกข้อมูลสำเร็จ");
-          window.location.reload()
+          //alert("บันทึกข้อมูลสำเร็จ");
+         // window.location.reload()
         })
         .catch(e => {
           console.log(e);
