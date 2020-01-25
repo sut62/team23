@@ -62,11 +62,29 @@
               </v-select>
             </v-col>
           </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field label="หมายเหตุ"
+                  outlined
+                    v-model="notes"
+                    required>
+                  </v-text-field>
+                </v-col>
+              </v-row>
            
               <v-row justify="center">
                 <v-btn @click="saveFoodanddrink" :class="{ red: !valid, green: valid }">Submit</v-btn>
                 <v-btn style="margin-left: 15px;" @click="clear">clear</v-btn>
               </v-row>
+              <!--<div v-if = "clickSave == true">
+                <div v-if = "fdCheck == true">
+                  <v-alert type="success">Register Completed</v-alert>
+                </div>
+                <div v-if = "fdCheck == false">
+                  <v-alert type="error">Can't Register</v-alert>
+                </div>
+      
+              </div>-->
             </div>
           </dir>
         </v-form>
@@ -77,7 +95,6 @@
 
 <script>
 import http from "../http-common";
-
 export default {
   name: "foodanddrink",
   data() {
@@ -85,11 +102,14 @@ export default {
       foodanddrink: {
       food : null,
       drink : null,
+      notes : null,
       employee : null,
       userId : null,
       },
       valid: false,
       userCheck: false,
+      //clickSave : false,
+      //fdCheck : false,
       userName: "",
       food:[],
       drink:[],
@@ -98,7 +118,6 @@ export default {
   },
   methods: {
     /* eslint-disable no-console */
-
     // ดึงข้อมูล food ใส่ combobox
     getFood() {
       http
@@ -155,28 +174,32 @@ export default {
     },
     // function เมื่อกดปุ่ม บันทึก
     saveFoodanddrink() {
+      
       http
         .post(
           "/Foodanddrink/" +
           this.foodanddrink.userId +
           "/" +
-            this.foodanddrink.food+
-            "/" + 
-            this.foodanddrink.drink +
-            "/" +
-            this.foodanddrink.employee ,
-            this.foodanddrink
-          
+          this.foodanddrink.food+
+          "/" + 
+          this.foodanddrink.drink +
+          "/" + 
+          this.foodanddrink.employee +
+          "/" +
+          this.notes
+         // this.foodanddrink,
         )
         .then(response => {
+          //this.clickSave = true; 
           console.log(response);
-          alert("ทำการซื้อสำเร็จ");
+          this.$router.push("/foodanddrinkData");
+          //alert("ทำการซื้อสำเร็จ");
           this.clear();
         })
         .catch(e => {
           console.log(e);
         });
-      this.submitted = true;
+      //this.submitted = true;
     },
     clear() {
     this.$refs.form.reset();
