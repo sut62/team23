@@ -15,12 +15,12 @@ import javax.persistence.GenerationType;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="PAYMENTOPTION")
-public class PaymentOption {
+@Table(name="CARDTYPE")
+public class CardType {
     @Id
-    @SequenceGenerator(name="PAYMENTOPTION_SEQ",sequenceName="PAYMENTOPTION_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PAYMENTOPTION_SEQ")
-    @Column(name="PAYMENTOPTION_ID",unique = true, nullable = true)
+    @SequenceGenerator(name="CARDTYPE_SEQ",sequenceName="CARDTYPE_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CARDTYPE_SEQ")
+    @Column(name="CARDTYPE_ID",unique = true, nullable = true)
    
     private @NonNull Long id;
     

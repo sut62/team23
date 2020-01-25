@@ -34,7 +34,7 @@ public class Bank {  //ผู้ป่วย
 
   @OneToMany(fetch = FetchType.LAZY)
   //mappedBy  = "type"
-  private Collection<Payment> pay;
+  private Collection<Payment> payment;
 
 
 
