@@ -1,7 +1,7 @@
 package com.okta.springbootvue;
 
-import com.okta.springbootvue.Entity.*;
-import com.okta.springbootvue.Repository.*;
+import com.okta.springbootvue.Entity.Room;
+import com.okta.springbootvue.Repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +11,18 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 @DataJpaTest
-public class ManageMovieTest {
+public class RoomTest {
 
     private Validator validator;
 
     @Autowired
-    private ManageMovieRepository manageMovieRepository;
+    private RoomRepository roomRepository;
 
     @BeforeEach
     public void setup() {
@@ -34,32 +32,29 @@ public class ManageMovieTest {
 
     // ตั้งชื่อ test ให้สอดคล้องกับสิ่งที่ต้อง test
     @Test
-    void B6011987_testManageMoiveNormal() {
-        ManageMovie movie = new ManageMovie();
-        movie.setNote("kidmaioog");
-        movie = manageMovieRepository.saveAndFlush(movie);
+    void B6011987_testRoomNormal() {
+        Room room = new Room();
+        room.setRoom("Room1");
 
+        room = roomRepository.saveAndFlush(room);
 
-        Optional<ManageMovie> found = manageMovieRepository.findById(movie.getId());
-        assertEquals("kidmaioog", found.get().getNote());
+        Optional<Room> found = roomRepository.findById(room.getIdR());
+        assertEquals("Room1", found.get().getRoom());
     }
-    @Test
-    void B6011987_testNoteIsMoreThanSize() {
-        ManageMovie movie = new ManageMovie();
-        movie.setNote("1234567890123456789012345678901234567890312156451");
+    void B6011987_testRoomMustNotBeNull() {
+        Room room = new Room();
+        room.setRoom(null);
 
-        Set<ConstraintViolation<ManageMovie>> result = validator.validate(movie);
+        Set<ConstraintViolation<Room>> result = validator.validate(room);
 
         // result ต้องมี error 1 ค่าเท่านั้น
         assertEquals(1, result.size());
 
         // error message ตรงชนิด และถูก field
-        ConstraintViolation<ManageMovie> c = result.iterator().next();
-        assertEquals("must be less than or equal 30 characters", c.getMessage());
-        assertEquals("note", c.getPropertyPath().toString());
+        ConstraintViolation<Room> b = result.iterator().next();
+        assertEquals("must not be null", b.getMessage());
+        assertEquals("room", b.getPropertyPath().toString());
     }
-
-    
 	
     
 }

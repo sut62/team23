@@ -40,7 +40,21 @@ public class MovieTimeTest {
 
         Optional<MovieTime> found = movieTimeRepository.findById(time.getIdT());
         assertEquals("15:15", found.get().getTime());
-	}
+    }
+    void B6011987_testTimeMustNotBeNull() {
+        MovieTime time = new MovieTime();
+        time.setTime(null);
+
+        Set<ConstraintViolation<MovieTime>> result = validator.validate(time);
+
+        // result ต้องมี error 1 ค่าเท่านั้น
+        assertEquals(1, result.size());
+
+        // error message ตรงชนิด และถูก field
+        ConstraintViolation<MovieTime> x = result.iterator().next();
+        assertEquals("must not be null", x.getMessage());
+        assertEquals("time", x.getPropertyPath().toString());
+    }
 	@Test
     void B6011987_testMovieTimeCenterCharacter(){
         MovieTime time = new MovieTime();
