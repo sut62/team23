@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.*;
 @Entity
 public class Jobs{
@@ -13,7 +14,9 @@ public class Jobs{
     @SequenceGenerator(name="jobseq",sequenceName="jobseq") 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="jobseq")  
     private  @NonNull Long job_id;
-    private @NonNull String job;
+    
+    @NotNull
+    private String job;
 
     public void setJob_id(Long job_id){
         this.job_id =job_id;

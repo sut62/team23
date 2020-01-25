@@ -44,7 +44,7 @@ public class JobsTest {
     }
 
     @Test
-    void B6024055_TestGenderMustNotNull(){
+    void B6024055_TestJobsMustNotNull(){
         Jobs job = new Jobs();
         job.setJob(null); // 12 digits
 
