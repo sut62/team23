@@ -1,15 +1,14 @@
 <template>
-  <v-app id="inspire">
+ <v-app id="landing-page">
+
     <v-content >
-      <v-img
-      src="56073.png"
-    >
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
-                <v-icon>mdi-login-variant</v-icon>&nbsp;&nbsp;
+              <v-toolbar color="#ff0d5d" dark flat>
+                <i class="material-icons">account_circle</i>
+                &nbsp;
                 <v-toolbar-title>เข้าสู่ระบบ</v-toolbar-title>
                 <div class="flex-grow-1"></div>
               </v-toolbar>
@@ -47,15 +46,14 @@
           </v-col>
         </v-row>
       </v-container>
-      </v-img>
     </v-content>
   </v-app>
-
 </template>
 
 <script>
 import http from "../http-common";
 export default {
+  name: "App",
   props: {
     source: String
   },
@@ -67,6 +65,10 @@ export default {
   }),
   methods: {
      /* eslint-disable no-console */
+
+     callUsername(){
+      return this.username;
+    },
     Login() {
       if (!this.username || !this.password) {
         alert("Please enter username and password.");
@@ -81,7 +83,7 @@ export default {
               console.log(this.auth);
             } else {
               alert("Login successfully...\nWelcome " + this.auth.name);
-              this.$router.push("/userhome");
+              this.$router.push( "/userhome/" + this.auth.id);
             }
           })
           .catch(e => {
@@ -93,3 +95,11 @@ export default {
 };
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+#landing-page {
+  background-image: url(https://i.ibb.co/nBpT6H0/xK.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
