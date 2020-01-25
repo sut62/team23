@@ -12,6 +12,7 @@ import TicketBookingUI from '../components/TicketBookingUI.vue';
 import PostPayment from '../components/PostPayment.vue';
 import UserProfile from '../components/UserProfile.vue';
 import ShowManageMovie from '../components/ShowManageMovie.vue';
+import MoviePics from '../components/MoviePics.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -65,7 +66,9 @@ export default new Router({
             path: '/showmm',
             component: ShowManageMovie
         },
-        
-
+        {
+            path: '/moviepics',
+            component: MoviePics
+        },
     ]
 });
