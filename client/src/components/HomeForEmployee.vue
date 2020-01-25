@@ -11,10 +11,11 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider inset></v-divider>
-        
+
+
         <v-list-item @click="goAddmovie">
           <v-list-item-action>
-            <v-icon light>mdi-paper-roll</v-icon>
+            <v-icon light>movie_filter</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>เพิ่มภาพยนตร์</v-list-item-title>
@@ -56,22 +57,23 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="amber" light clipped-left>
+    <v-app-bar app color="amber"  light clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <v-icon light>mdi-account</v-icon>
         <span class="title ml-3 mr-5">
-          
-          
         </span>
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-content>
+    <!-- <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-          <v-col class="text-center">
-            <template v-if="content === 'HomeForEmployee'">
+          <v-col class="text-center"> -->
+            <template v-if="content === 'moviepics'">
+              <MoviePics :employee="employee" />
+            </template>
+            <template v-else-if="content === 'moviepics'">
               <HomeForEmployee :employee="employee" />
             </template>
             <template v-else-if="content === 'MovieAdd'">
@@ -84,10 +86,10 @@
               <Foodanddrink :employee="employee" />
             </template>
            
-          </v-col>
+          <!-- </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-content> -->
     <v-footer color="amber" app>
       <span
         class="white--text"
@@ -102,12 +104,14 @@ import http from "../http-common";
 import ManageMovie from "../components/ManageMovie";
 import MovieAdd from "../components/MovieAdd";
 import Foodanddrink from "../components/Foodanddrink"
+import MoviePics from "../components/MoviePics"
 
 export default {
   components: {
     ManageMovie,
     MovieAdd,
     Foodanddrink,
+    MoviePics,
   },
   mounted() {
     this.employee.employee_id = this.$route.params.employee_id;
@@ -119,7 +123,7 @@ export default {
   data: () => ({
     drawer: null,
     employee: {},
-    content: "employeehome"
+    content: "moviepics"
   }),
   methods: {
       /* eslint-disable no-console */
@@ -142,7 +146,7 @@ export default {
       this.drawer = false;
     },
     goHomeForEmployee() {
-      this.content = "HomeForEmployee";
+      this.content = "moviepics";
       this.drawer = false;
     },
     getEmployee() {
@@ -161,3 +165,4 @@ export default {
   }
 };
 </script>
+
