@@ -56,12 +56,13 @@ public class FoodanddrinkController {
         return foodanddrinkRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/Foodanddrink/{user_id}/{food_id}/{drink_id}/{employee_id}")
+    @PostMapping("/Foodanddrink/{user_id}/{food_id}/{drink_id}/{employee_id}/{note}")
     public Foodanddrink newFoodanddrink(Foodanddrink newFoodanddrink,
     @PathVariable long food_id,
     @PathVariable long drink_id,
     @PathVariable long employee_id,
-    @PathVariable long user_id) {
+    @PathVariable long user_id, 
+    @PathVariable String note) {
     //VideoRental newVideoRental = new VideoRental();
 
     Food food = foodRepository.findById(food_id);
@@ -72,8 +73,10 @@ public class FoodanddrinkController {
     newFoodanddrink.setFood(food);
     newFoodanddrink.setDrink(drink);
     //newFoodanddrink.setRentDate(new Date());
+    newFoodanddrink.setNote(note);
     newFoodanddrink.setEmployee(employee);
     newFoodanddrink.setUser(user);
+    
 
 
     return foodanddrinkRepository.save(newFoodanddrink); //บันทึก Objcet ชื่อ Foodanddrink
