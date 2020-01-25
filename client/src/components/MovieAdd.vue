@@ -1,28 +1,11 @@
 <template>
-  <v-card max-width="800" class="mx-auto" color="ffffff">
-    <v-app-bar
-      absolute
-      color="#01579B"
-      dark
-      shrink-on-scroll
-      prominent
-      scroll-target="#scrolling-techniques" 
-    > 
-    
-      <v-toolbar-title>เพิ่มภาพยนตร์</v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-app-bar>
-    <v-sheet
-      id="scrolling-techniques"
-      class="overflow-y-auto"
-      max-height="600"
-    >
-      <v-container style="height: 150px;"></v-container>
-    </v-sheet>
-     <v-form v-model="valid">
-      
-
-    <v-container>
+  <v-container>
+    <v-layout text-center wrap>
+      <v-flex mb-4>
+        <br />
+        <h1 class="display-2 font-weight-bold mb-3">ระบบเพิ่มภาพยนตร์</h1>
+      </v-flex>
+    </v-layout>
 
           <v-row justify="center">
               <v-col cols="10">
@@ -177,12 +160,39 @@
 
             </v-row>
           <v-row justify="center">
-            <v-btn @click="saveMovieAdd" :class="{ red: !valid, green: valid }">บันทึก</v-btn>
+            <v-btn color="amber" @click="saveMovieAdd">บันทึก</v-btn>
             <v-btn style="margin-left: 15px;" @click="clear">ยกเลิก</v-btn>
           </v-row>
+          <div v-if = "clickSave == true">
+          <div v-if = "movieaddCheck == true">
+        
+          <v-row justify="center">
+    <v-col cols="6">
+    <v-alert prominent
+      type="success"
+    >
+    
+      <v-row align="center">
+      
+        <v-col class="grow">
+          บันทึกสำเร็จ<br>
+        </v-col>
+      </v-row>
+    </v-alert>
+    </v-col>
+    </v-row>
+  </div>
+
+        <div v-if = "movieaddCheck == false">
+        <v-row justify="center">
+        <v-col cols="6">
+          <v-alert type="error">บันทึกไม่สำเร็จ</v-alert>
+          </v-col>
+          </v-row>
+        </div>
+      
+        </div>
 </v-container>
-  </v-form>
-  </v-card>
 </template>
 
 <script>
@@ -203,10 +213,12 @@ export default {
         movierateId: null,
         length: null,
         systemtypeId: null,
-        release: null,   
+        release: null, 
       },
       items: [],
       valid : false,
+      clickSave : false,
+      movieaddCheck : false,
       employees : [],
       moviegenres : [],
       movierates : [],
@@ -219,8 +231,8 @@ export default {
       http
         .get("/employee")
         .then(response => {
-          this.employees = response.data;
-          console.log(response.data);
+          this.employees = response.data; 
+          console.log(response.date);
         })
         .catch(e => {
           console.log(e);
@@ -260,12 +272,13 @@ export default {
         });
     },
      saveMovieAdd() {
+       this.clickSave = true;
       if (this.movieadd.employeeId==null || this.movieadd.name ==null|| 
         this.movieadd.moviegenreId ==null || this.movieadd.synopsis==null ||
         this.movieadd.director==null ||
         this.movieadd.actor==null|| this.movieadd.studio==null ||
         this.movieadd.movierateId==null || this.movieadd.length==null  || this.movieadd.systemtypeId==null){
-        alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+        //alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
       } else {
         this.checkName();
       }
@@ -278,7 +291,7 @@ export default {
           if (!res.data) {
             this.add();
           } else {
-            alert("ชื่อหนังเรื่องนี้ถูกใช้แล้ว!");
+            //alert("ชื่อหนังเรื่องนี้ถูกใช้แล้ว!");
           }
         })
         .catch(e => {
@@ -286,6 +299,8 @@ export default {
         });
     },
     add() {
+          this.clickSave = true;
+          this.movieaddCheck = true;
          http
         .post(
           "/movieadd/" +
@@ -312,11 +327,15 @@ export default {
         )
           .then(response => {
           console.log(response);
-          alert("บันทึกข้อมูลสำเร็จ");
-          window.location.reload()
+          this.clickSave = true;
+          this.movieaddCheck = true;
+          //alert("บันทึกข้อมูลสำเร็จ");
+          this.$router.push("/viewmovieadddata");
         })
         .catch(e => {
           console.log(e);
+          this.clickSave = true;
+          this.movieaddCheck = false;
         });
     },
     clear() {
