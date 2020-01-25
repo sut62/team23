@@ -8,16 +8,16 @@
     <v-img
       class="white--text align-end"
       height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      src="http://s18292.pcdn.co/wp-content/uploads/2015/12/tumblr_nx7k5nDuDA1s2wlrxo1_540.gif"
     >
-     <center> <v-card-title> <font size="10"> ข้อมูลส่วนตัว </font> <br></v-card-title></center>
+     <center> <v-card-title> <font size="10" color = "black"> ข้อมูลส่วนตัว </font> <br></v-card-title></center>
     </v-img>
     <v-card class="text--primary">
         <v-card-actions>
       <div> 
                
                 <p class="text-md-left"><i class="material-icons">person</i>  ชื่อผู้ใช้ : {{user.username}}</p>
-                <p class="text-md-left"><i class="material-icons">lock</i> ระหัสผ่าน : {{user.password}}</p>
+                <p class="text-md-left"><i class="material-icons">lock</i> รหัสผ่าน : {{user.password}}</p>
                 <p class="text-md-left"><i class="material-icons">assignment_ind</i> ชื่อ : {{this.user.name}}</p>
                 <p class="text-md-left"><i class="material-icons">access_alarm</i> อายุ : {{user.age}}</p>
                 <p class="text-md-left"><i class="material-icons">accessibility</i> เพศ : {{this.user.gender.gender_name}}</p>
@@ -31,6 +31,7 @@
   
   </div>
   </body>
+ 
 </template>
 <script>
 
@@ -50,5 +51,6 @@ export default {
     font{
         font-family: 'Prompt', sans-serif;
     }
+
 
 </style>
