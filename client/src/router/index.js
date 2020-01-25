@@ -10,7 +10,8 @@ import Foodanddrik from '../components/Foodanddrink.vue';
 import MovieAdd from '../components/MovieAdd.vue';
 import TicketBookingUI from '../components/TicketBookingUI.vue';
 import PostPayment from '../components/PostPayment.vue';
-import UserProfile from '../components/UserProfile.vue'
+import UserProfile from '../components/UserProfile.vue';
+import ShowManageMovie from '../components/ShowManageMovie.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -59,7 +60,11 @@ export default new Router({
         {
             path: '/profile',
             component: UserProfile
-        }
+        },
+        {
+            path: '/showmm',
+            component: ShowManageMovie
+        },
         
 
     ]
