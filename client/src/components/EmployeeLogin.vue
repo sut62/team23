@@ -1,5 +1,6 @@
 <template>
-  <v-app id="inspire">
+ <v-app id="landing-page">
+ 
     <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
@@ -37,7 +38,8 @@
         </v-row>
       </v-container>
     </v-content>
-  </v-app>
+  
+ </v-app>
 </template>
 
 <script>
@@ -56,7 +58,7 @@ export default {
     /* eslint-disable no-console */
     employeeLogin() {
       if (!this.username || !this.password) {
-        alert("Please enter username and password.");
+        //alert("Please enter username and password.");
       } else {
         http
           .get("/employee/"+this.username+"/"+ this.password)
@@ -64,10 +66,10 @@ export default {
             console.log(JSON.parse(JSON.stringify(res.data)));
             this.auth = res.data;
             if (!this.auth.username) {
-              alert("Username or password is in correct!");
+             // alert("Username or password is in correct!");
               console.log(this.auth);
             } else {
-              alert("Login successfully...\nWelcome " + this.auth.employee);
+             // alert("Login successfully...\nWelcome " + this.auth.employee);
               this.$router.push("/empoyeehome");
             }
           })
@@ -82,3 +84,12 @@ export default {
   }
 };
 </script>
+
+<style>
+#landing-page {
+  background-image: url(https://i.ibb.co/nBpT6H0/xK.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>

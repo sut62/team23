@@ -9,7 +9,9 @@
               <v-toolbar color="#ff0d5d" dark flat>
                 <i class="material-icons">account_circle</i>
                 &nbsp;
+                  
                 <v-toolbar-title>เข้าสู่ระบบ</v-toolbar-title>
+                
                 <div class="flex-grow-1"></div>
               </v-toolbar>
               <v-card-text>
@@ -43,6 +45,9 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
+            <div v-if = "loginCheck == false">
+                <v-alert type="error">Username or password is in correct!</v-alert>
+             </div>
           </v-col>
         </v-row>
       </v-container>
@@ -61,6 +66,7 @@ export default {
     drawer: null,
     username: null,
     password: null,
+    loginCheck: true,
     auth: {}
   }),
   methods: {
@@ -69,9 +75,10 @@ export default {
      callUsername(){
       return this.username;
     },
+
     Login() {
       if (!this.username || !this.password) {
-        alert("Please enter username and password.");
+        //alert("Please enter username and password.");
       } else {
         http
           .get("/user/" + this.username + "/" + this.password)
@@ -79,10 +86,11 @@ export default {
             console.log(JSON.parse(JSON.stringify(res.data)));
             this.auth = res.data;
             if (!this.auth.username) {
-              alert("Username or password is in correct!");
+             // alert("Username or password is in correct!");
+              this.loginCheck=false;
               console.log(this.auth);
             } else {
-              alert("Login successfully...\nWelcome " + this.auth.name);
+              //alert("Login successfully...\nWelcome " + this.auth.name);
               this.$router.push( "/userhome/" + this.auth.id);
             }
           })
