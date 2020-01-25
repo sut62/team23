@@ -10,6 +10,7 @@ import Foodanddrik from '../components/Foodanddrink.vue';
 import MovieAdd from '../components/MovieAdd.vue';
 import TicketBookingUI from '../components/TicketBookingUI.vue';
 import PostPayment from '../components/PostPayment.vue';
+import UserProfile from '../components/UserProfile.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -36,7 +37,7 @@ export default new Router({
             component: HomeForEmployee
         },
         {
-            path:'/userhome',
+            path:'/userhome/:id',
             component: HomeForUser
         },
         {
@@ -54,6 +55,10 @@ export default new Router({
         {
             path: '/postpayment',
             component: PostPayment
+        },
+        {
+            path: '/profile',
+            component: UserProfile
         }
         
 
