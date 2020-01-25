@@ -51,7 +51,7 @@ public class ManageMovie {
     @JoinColumn(name = "Time_ID", insertable = true)
     private MovieTime time;
 
-    @Size( max = 30)
+    @Size( max = 30 ,message = "must be less than or equal 30 characters")
     private String note;
 
 }
