@@ -8,8 +8,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.okta.springbootvue.Entity.TicketBooking;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -46,9 +48,9 @@ public class Payment {
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = PaymentOption.class)
-    @JoinColumn(name = "PAYMENTOPTION_ID", insertable = true)
-    private PaymentOption paymentOption;
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = CardType.class)
+    @JoinColumn(name = "CARDTYPE_ID", insertable = true)
+    private CardType cardType;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Bank.class)
     @JoinColumn(name = "BANK_ID", insertable = true)
@@ -57,7 +59,7 @@ public class Payment {
     @Column(name="PAYMENT_DATE")
     private @NonNull Date paymentDate;
 
-    @Pattern(regexp = "\\d{12}")
+    @Pattern(regexp = "\\d{16}")
     @NotNull
     private String cardNumber;
 
@@ -65,13 +67,9 @@ public class Payment {
     @NotNull
     private String securityCode;
 
-    @Email (message = "Email should be valid")
+    @Size (max=50,message="should not greater than 50")
     @NotNull
-    private String linepayEmail;
-
-    @Email (message = "Email should be valid")
-    @NotNull
-    private String paypalEmail;
+    private String cardHolderName;
 
 
 
