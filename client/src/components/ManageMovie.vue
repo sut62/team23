@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+  <v-form>
     <v-container fluid>
 
       <center>
@@ -52,7 +53,6 @@
           ></v-select>
         </v-col>
 
-         <v-row justify="center">
           <v-col cols="12" lg="6">
             <label>วันที่ฉาย:</label>
             <v-menu
@@ -76,7 +76,6 @@
                 <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker>
             </v-menu>
           </v-col>
-        </v-row>
 
         <label>เวลาฉาย</label>
         <v-col class="d-flex" cols="5">
@@ -93,26 +92,38 @@
           ></v-select>
           </v-col>
           
-          <v-col cols="12" sm="12" md="12">
-          <v-text-field
-            label="หมายเหตุ"
-            v-model="managemovie.notes"
-            :rules="[(v) => !!v || 'Item is required']"
-            required
-            single-line
-            solo
-          ></v-text-field>
+          <v-text-field 
+          v-model="notes"
+          label="หมายเหตุ" 
+          solo>
+          </v-text-field>
+        </v-row>
+ 
+          <v-row justify="center">
+        <v-col class="d-flex" cols="50" sm="30">
+          <v-bottom-sheet v-model="alwayselect">
+            <template v-slot:activator="{ on }">
+              <v-btn @click="saveManageMovie" :class="{ green: !valid, blue: valid }">บันทึก</v-btn>
+            </template>
+            <v-sheet class="text-center" height="200px">
+              <div v-if="checkSave==true" class="py-3" cols="12" lg="6" >
+              บันทึกสำเร็จ
+              </div>
+              <div v-if="checkSave==false" class="py-3" cols="12" lg="6">ข้อมูลไม่ถูกต้องกรุณากรอกใหม่</div>
+              <v-btn color="red" text @click="alwayselect = false">Close</v-btn>
+            </v-sheet>
+          </v-bottom-sheet>
+            <v-btn color="#FF6262" width="100" router-link to="/showmm" >แสดงข้อมูล</v-btn>
         </v-col>
-
-
-        <v-col class="center" cols="12" sm="12">
-          <v-btn color="success" width="150" @click="saveManageMovie" >บันทึก</v-btn>
-        </v-col>
-
+        <br />
+        <br />
       </v-row>
+      <br />
     </v-container>
+    </v-form>    
   </div>
 </template>
+
 
 <script>
 import http from "../http-common";
@@ -123,16 +134,20 @@ export default {
     dub: [],
     room: [],
     movieTime: [],
+    notes: null,
     date: new Date().toISOString().substr(0, 10),
     dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
     menu1: false,  
+    checkSave: false,
+    alwayselect: false,
+    valid: false,
     managemovie: [
       {
-      movie_id: "",
-      dub_id: "",
-      room_id: "",
-      movie_time: "",
-      notes: ""
+      movie_id: '',
+      dub_id: '',
+      room_id: '',
+      movie_time: '',
+      
       }
     ]
     };
@@ -193,6 +208,20 @@ export default {
           console.log(e);
         });
     },
+    /*checkData(){
+      http
+        .get("/managemovie/checkData/" + this.managemovie.room_id +"/"+this.managemovie.movie_time +"/" +this.date)
+        .then(res => {
+          if (res.data == null) {
+            this.saveManageMovie();
+          } else {
+            alert("มีรอบการฉายอยู่แล้ว");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },*/
     saveManageMovie() {
       http
         .post(
@@ -205,16 +234,20 @@ export default {
             "/" + 
             this.managemovie.movie_time +
             "/" + 
-            this.managemovie.notes+
+            this.notes+
             "/" +
-            this.managemovie.date
+            this.date
 
         )
         .then(response => {
           console.log(response);
-          alert("บันทึกข้อมูลสำเร็จ");
+         this.alwayselect = true;
+          this.checkSave = true;
         })
         .catch(e => {
+          this.alwayselect = true;
+          this.checkSave = false;
+  
           console.log(e);
         });
     
