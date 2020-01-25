@@ -2,6 +2,17 @@
 
   <v-app>
     <v-navigation-drawer v-model="drawer" app temporary>
+
+        
+        <v-list-item @click="goUserProfile">
+          <v-list-item-action>
+            <i class="material-icons">assignment</i>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>ประวัติส่วนตัว</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      <v-divider inset></v-divider>
       <v-list dense>
         <v-list-item @click="goTicketBooking">
           <v-list-item-action>
@@ -41,7 +52,7 @@
     <v-app-bar app color="amber" light clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"><i class="material-icons">menu</i></v-app-bar-nav-icon>
       <v-toolbar-title>
-        <v-icon light>mdi-account</v-icon>
+       
         <span
         class="black--text"
       >ยินดีต้อนรับคุณ {{this.user.name}}</span>
@@ -50,27 +61,35 @@
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col class="text-center">
+    <!-- <v-content> -->
+      <!--<v-container class="fill-height" fluid>-->
+       <!-- <v-row align="center" justify="center">-->
+          <!-- <v-col class="text-center"> -->
            <template v-if="content === 'userhome'">
+            <br><br>
               <UserProfile :user="user" />
+             
            </template>
             <template v-if="content === 'HomeForUser'">
+               
               <HomeForUser :user="user" />
+             
             </template>
             <template v-else-if="content === 'TicketBookingUI'">
+              
               <TicketBookingUI :user="user" />
+              
             </template>
             <template v-else-if="content === 'PostPayment'">
+               
               <PostPayment :user="user" />
+             
             </template>
            
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
+          <!-- </v-col> -->
+        <!-- </v-row> -->
+      <!--</v-container>-->
+    <!-- </v-content> -->
     <v-footer color="amber" app>
       <span
         class="white--text"
@@ -120,7 +139,7 @@ export default {
       this.drawer = false;
     },
     goUserProfile() {
-      this.content = "UserProfile";
+      this.content = "userhome";
       this.drawer = false;
     },
     getUser() {
@@ -139,3 +158,12 @@ export default {
   }
 };
 </script>
+
+<style>
+#landing-page {
+  background-image: url(https://i.ibb.co/nBpT6H0/xK.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
