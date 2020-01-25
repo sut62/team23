@@ -1,10 +1,17 @@
 package com.okta.springbootvue.Entity;
 
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
 import lombok.*;
 @Entity
+@Data
+@NoArgsConstructor
 
 public class User{
     @Id
@@ -14,8 +21,14 @@ public class User{
         private @NonNull String username;
         private @NonNull String password;
         private @NonNull String name;
-        private @NonNull String tel;
-        private @NonNull int age;
+        
+        @NotNull
+        @Size(min = 10, max = 10, message = "tel must be between 10 and 10 characters")
+        private String tel;
+        
+        @NotNull
+        @Max(value = 100, message = "age should not be greater than 100")
+        private  int age;
 
 
 @ManyToOne
