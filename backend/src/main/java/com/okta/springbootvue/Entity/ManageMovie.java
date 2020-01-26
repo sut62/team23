@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,7 +46,7 @@ public class ManageMovie {
     @JoinColumn(name = "ROOM_ID", insertable = true)
     private Room ro;
     
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MovieTime.class)
