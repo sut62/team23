@@ -57,7 +57,7 @@
     <v-row justify="center">
       <!-- <v-col cols="6"> -->
         <v-btn @click="searchPayment" large color="purple darken-2" dark>ตรวจสอบการชำระเงิน</v-btn>
-        <v-btn style="margin-left: 20px;" @click="userHome" large >กลับหน้าหลัก</v-btn>
+        <!-- <v-btn style="margin-left: 20px;" @click="userHome" large >กลับหน้าหลัก</v-btn> -->
       <!-- </v-col> -->
     </v-row>
 
@@ -99,8 +99,18 @@ export default {
         window.location.reload()
     },
     userHome() {
-      this.$router.push("/userHome");
+      this.$router.push("/userhome/" + this.auth.id);
       window.location.reload()
+    },
+    getUser() {
+      http
+        .get("/user/" + this.user.id)
+        .then(res => {
+          this.user = res.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     takePaymentsHere(){
       http
@@ -117,6 +127,7 @@ export default {
   },
   mounted(){
       this.takePaymentsHere();
+      this.getUser();
   }
 };
 </script>
