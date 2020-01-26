@@ -1,89 +1,61 @@
 <template>
   <v-container>
+    <div>
     <v-layout text-center wrap>
       <v-flex mb-4>
-        <br />
-        <h1 class="display-2 font-weight-bold mb-3">ชำระเงิน</h1>
-      </v-flex>
+        <br>
+        <br>
+        <v-row justify="center">
+        <!-- <h1 class="display-2 font-weight-bold mb-3 ">ชำระเงิน</h1> -->
+        <center> <v-card-title> <font size="10"> ชำระเงิน </font> <br></v-card-title></center>
+        </v-row>
+      </v-flex> 
     </v-layout>
+    <br>
+    <br>
     <v-form v-model="valid" ref="form">
     <v-row justify="center">
       <v-col cols="6">
         <v-select
           label="หมายเลขคำสั่งซื้อ"
           outlined
-          v-model="Payment.ticketBooking"
+          v-model="payment.ticketBooking"
           :items="ticketbookings"
           item-text="bookingDate"
           item-value="id"
-          :rules="[(v) => !!v || 'Item is required']"
+          :rules="[(v) => !!v || 'กรุณาเลือกข้อมูล']"
           required
         ></v-select>
       </v-col>
     </v-row>
 
-    <!-- <v-row justify="center">
-    <v-date-picker v-model="picker"></v-date-picker>
-  </v-row> -->
+    <!-- <v-row align="center" justify="center"> 
+            <v-img
+                src="paymentbar_2.png" 
+                 
+                 aspect-ratio="1"
+                 class="grey lighten-2"
+                  max-width="600"
+                 max-height="49"
+             ></v-img>
+          </v-row> -->
 
     <v-row justify="center">
       <v-col  cols="6">
         <div >
         <v-select
-          label="วิธีการชำระ"
+          label="ประเภทของบัตร"
           outlined
-          v-model="Payment.paymentOption"
-          :items="paymentOptions"
+          v-model="payment.cardType"
+          :items="cardTypes"
           item-text="name"
           item-value="id"
-          :rules="[(v) => !!v || 'Item is required']"
+          :rules="[(v) => !!v || 'กรุณาเลือกข้อมูล']"
           required
           
         ></v-select>
         </div>
       </v-col>
-    </v-row>
-
-    <div v-if="Payment.paymentOption == 1">
-
-          <v-row justify="center">
-      <v-col cols="6">
-
-          <v-text-field
-            class="font"
-            outlined
-            label="Line pay Email"
-            v-model="Payment.linepayEmail"
-            :rules="[(v) => !!v || 'Emai Address']"
-            required
-          ></v-text-field>
-
-          </v-col>
-      
-    </v-row>
-
-    </div>
-   
-
-    <div v-if="Payment.paymentOption == 2">
-
-        <v-row justify="center">
-      <v-col cols="6">
-        
-        <v-select
-          label="ธนาคาร"
-          outlined
-          v-model="Payment.bank"
-          :items="banks"
-          item-text="name"
-          item-value="id"
-          :rules="[(v) => !!v || 'Item is required']"
-          required
-          
-        ></v-select>
-      
-      </v-col>
-      
     </v-row>
 
     <v-row justify="center">
@@ -92,8 +64,8 @@
                               class="font"
                               outlined
                               label="หมายเลขบัตรเครดิต/เดบิต"
-                              v-model="Payment.cardNumber"
-                              :rules="[(v) => !!v || 'กรุณากรอกหมายเลขบัตรเครดิต/เดบิต']"
+                              v-model="payment.cardNumber"
+                              :rules="[(v) => !!v || 'ตัวเลข 16 ตัวหน้าบัตรเครดิต/เดบิต']"
                               required
                       ></v-text-field>
                     </v-col>
@@ -103,74 +75,132 @@
                               class="font"
                               outlined
                               label="Security Code (CVV2)"
-                              v-model="Payment.securityCode"
+                              v-model="payment.securityCode"
                               :rules="[(v) => !!v || 'last 3 digits on the back of card']"
                               required
                       ></v-text-field>
                     </v-col>
                   </v-row>
 
+  <v-row justify="center">
+    <v-col cols="6">
+       <v-text-field
+           class="font"
+           outlined
+           label="ชื่อผู้ถือบัตร"
+           v-model="payment.cardHolderName"
+           :rules="[(v) => !!v || 'กรุณากรอกชื่อผู้ถือบัตร']"
+           required
+       ></v-text-field>
+    </v-col>  
+  </v-row>
 
-    
-    </div>
-
-    <div v-if="Payment.paymentOption == 3">
-
-          <v-row justify="center">
+  <v-row justify="center">
       <v-col cols="6">
-
-          <v-text-field
-            class="font"
-            outlined
-            label="Paypal Email"
-            v-model="Payment.paypalEmail"
-            :rules="[(v) => !!v || 'Emai Address']"
-            required
-          ></v-text-field>
-
-          </v-col>
+        
+        <v-select
+          label="ธนาคาร"
+          outlined
+          v-model="payment.bank"
+          :items="banks"
+          item-text="name"
+          item-value="id"
+          :rules="[(v) => !!v || 'กรุณาเลือกข้อมูล']"
+          required
+          
+        ></v-select>
+      
+      </v-col>
       
     </v-row>
 
-    </div>
 
+      <!-- <v-row justify="center">
+        <v-col cols="6">
+            <v-textarea
+              outlined
+              label="หมายเหตุ"
+              v-model="payment.note"
+            >
+            </v-textarea>
+          </v-col>
+      </v-row> -->
 
+<v-row justify="center">
+      <!-- <v-col cols="6"> -->
+        <v-btn @click="savePayment" :class="{ red: !valid, green: valid }">ชำระเงิน</v-btn>
+        <v-btn style="margin-left: 20px;" @click="clear">ล้างข้อมูล</v-btn>
+      <!-- </v-col> -->
+    </v-row>
+  <br>
 
+  
+    <div v-if = "clickPayment == true">
+
+          <div v-if = "paymentCheck == true">
+          <v-row justify="center">
+    <v-col cols="6">
+    <v-alert prominent type="success">
+      <v-row align="center">
+        <v-col class="grow">
+          ชำระเงินสำเร็จ<br>
+        </v-col>
+        
+        <v-col class="shrink">
+          <v-btn @click="informPaymentId " :class="font" >แจ้งหมายเลขการชำระเงิน</v-btn>
+        </v-col>
+      </v-row>
+    </v-alert>
+    </v-col>
+    </v-row>
+  </div>
+
+        <div v-if = "paymentCheck == false">
+        <v-row justify="center">
+        <v-col cols="6">
+          <v-alert type="error">ชำระเงินไม่สำเร็จ</v-alert>
+          </v-col>
+          </v-row>
+        </div>
+      
+        </div>
+        
 
 </v-form>
-    <v-row justify="center">
-      <v-col cols="6">
-        <v-btn @click="savePayment" :class="{ red: !valid, green: valid }">submit</v-btn>
-        <v-btn style="margin-left: 20px;" @click="clear">clear</v-btn>
-      </v-col>
-    </v-row>
+
+    
+    </div>
   </v-container>
 </template>
 
 <script>
 
+
 import http from "../http-common";
+
 
 
 export default {
   
-  name: "Payment",
+  name: "payment",
   data() {
     return {
-      Payment: {
+      payment: {
+        id:"",
         ticketBooking: "",
-        paymentOption: "",
-        bank: 0,
-        linepayEmail: "",
+        cardType: "",
+        bank: "",
+        cardHolderName: "",
         cardNumber: "",
         securityCode: "",
-        paypalEmail: ""
+        note: "",
+        bookingDate: ""
       },
 
       check: false,
       check2: false,
       val:"",
-
+      
       components: {
       },
 
@@ -178,28 +208,22 @@ export default {
       valid: false,
       pclear: false,
       ticketbookings: [],
-      paymentOptions: [],
+      cardTypes: [],
       banks: [],
+      paymentCheck: false,
+      clickPayment: false,
       
       prop:[]
           
     };
     
   },
-  
   methods: {
-    // get1() {
-    //   http
-    //     .get("/payment/")
-    //     .then(response => {
-    //       this.payment = response.data;
-    //       console.log(response.data);
-    //     })
-    //     .catch(e => {
-    //       console.log(e);
-    //     });
-    // },
+
+
+    
     /* eslint-disable no-console */
+
     // ดึงข้อมูล Employee ใส่ combobox
     
    getTicketBookings() {
@@ -213,11 +237,11 @@ export default {
           console.log(e);
         });
     },
-    getPaymentOptions() {
+    getCardTypes() {
       http
-        .get("/paymentOption")
+        .get("/cardType")
         .then(response => {
-          this.paymentOptions = response.data;
+          this.cardTypes = response.data;
           console.log(response.data);
         })
         .catch(e => {
@@ -236,22 +260,53 @@ export default {
         });
     },
     
+    
     savePayment() {
+      this.clickPayment = true;
+      this.paymentCheck = true;
       http
         .post(
-           "/paymentPost",
-           this.payment
+          "/paymentPost/"+
+            this.payment.ticketBooking + "/" +
+            this.payment.cardType + "/" + 
+            this.payment.cardNumber + "/" +
+            this.payment.securityCode + "/" +
+            this.payment.cardHolderName + "/" +
+            this.payment.bank,
+            this.payment
         )
         .then(response => {
           console.log(response);
-         alert("ชำระเงินสำเร็จ");
-         this.clear();
+          this.clickPayment = true;
+          this.paymentCheck = true;
+          this.clear();
         })
         .catch(e => {
           console.log(e);
+          this.clickPayment = true;
+          this.paymentCheck = false;
+          this.clear();
         });
+
       this.submitted = true;
     },
+
+    informPaymentId() {
+      this.$router.push("/informPaymentId");
+      window.location.reload()
+    },
+
+    // informPaymentId() {
+    //   http
+    //     .then(response => {
+    //       console.log(response);
+    //       this.$router.push("/informPaymentId");
+    //     })
+    //     .catch(e => {
+    //       console.log(e);
+    //     });
+    //   this.submitted = true;
+    // },
 
     clear() {
       this.$refs.form.reset();
@@ -259,16 +314,17 @@ export default {
     },
     refreshList() {
       this.getTicketBookings();
-      this.getPaymentOptions();
+      this.getCardTypes();
       this.getBanks();
       
       
     }
     /* eslint-enable no-console */
   },
+
   mounted() {
     this.getTicketBookings();
-    this.getPaymentOptions();
+    this.getCardTypes();
     this.getBanks();
     
     
@@ -278,26 +334,13 @@ export default {
 };
 
 </script>
-          // "/paymentPost"+"/"+
-          // this.Payment.ticketBooking + "/" +
-          // this.Payment.paymentOption + "/" + 
-          // this.Payment.linepayEmail ,
-          // "/paymentPost"+"/"+
-          // this.Payment.ticketBooking + "/" +
-          // this.Payment.paymentOption + "/" + 
-          // this.Payment.bank + "/" +
-          // this.Payment.cardNumber + "/" +
-          // this.Payment.securityCode,
-          // "/paymentPost"+"/"+
-          // this.Payment.ticketBooking + "/" +
-          // this.Payment.paymentOption + "/" + 
-          // this.Payment.paypalEmail,
-          // // this.Payment
 
-            // this.Payment.ticketBooking + "/" +
-            // this.Payment.paymentOption + "/" + 
-            // this.Payment.linepayEmail + "/" +
-            // this.Payment.bank + "/" +
-            // this.Payment.cardNumber + "/" +
-            // this.Payment.securityCode + "/" +
-            // this.Payment.paypalEmail,
+<style>
+@import url('https://fonts.googleapis.com/css?family=Mitr&display=swap');
+font {
+  font-family: 'Mitr', sans-serif;
+}
+div {
+  font-family: 'Mitr', sans-serif;
+}
+</style>

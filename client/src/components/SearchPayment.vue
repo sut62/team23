@@ -48,7 +48,10 @@
               <v-card-text>
                 <div>ประวัติการชำระเงินหมายเลขไอดี: {{payment.id}}</div>
                <br><br>
-                <p class="display-2 text--primary">ชำระแล้ว</p>
+               <div class="display-2">
+                    <p>ชำระแล้ว</p>
+               </div>
+                
 
                <div class="text--primary">
                  <br>

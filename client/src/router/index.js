@@ -14,6 +14,9 @@ import UserProfile from '../components/UserProfile.vue';
 import ShowManageMovie from '../components/ShowManageMovie.vue';
 import ViewMovieAddData from '../components/ViewMovieAddData.vue';
 import MoviePics from '../components/MoviePics.vue';
+import SearchPayment from "../components/SearchPayment.vue";
+import InformPaymentId from "../components/InformPaymentId.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -75,5 +78,13 @@ export default new Router({
             path: '/viewmovieadddata',
             component: ViewMovieAddData
         },
+        {
+            path: '/informPaymentId',
+            component: InformPaymentId
+        },
+        {
+            path: '/searchPayment',
+            component: SearchPayment
+        }
     ]
 });
