@@ -36,7 +36,7 @@ public class Payment {
     @SequenceGenerator(name = "PAYMENT_SEQ", sequenceName = "PAYMENT_SEQ")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAYMENT_SEQ")
     @Column(name = "PAYMENT_ID", unique = true, nullable = true)
-    private @NotNull Long id;
+    private @NonNull Long id;
     // private @NonNull Long totalPrice;
 
     
