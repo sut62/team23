@@ -7,13 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 @Entity
 public class SystemType{
     @Id
     @SequenceGenerator(name="systemtypeseq",sequenceName="systemtypeseq") 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="systemtypeseq")
       private @NonNull Long systemtype_id;
-      private @NonNull String systemtype;
+      @NotNull 
+      private String systemtype;
 
       public void setSystemType_id(Long systemtype_id){
         this.systemtype_id=systemtype_id;
