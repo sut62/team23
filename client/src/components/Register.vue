@@ -12,7 +12,7 @@
       dark
       flat
     > <v-icon>mdi-account-plus</v-icon>&nbsp;&nbsp;
-      <v-card-title ><h1>สมัครสมาชิก</h1></v-card-title>
+      <v-card-title class="title font-weight-regular">สมัคสมาชิก</v-card-title>
      
       <v-spacer></v-spacer>
 
@@ -97,7 +97,6 @@
     </table>
           <div v-if = "clickRegister == true">
           <div v-if = "registerCheck == true">
-          
             <v-alert type="success">Register Completed</v-alert>
           </div>
         <div v-if = "registerCheck == false">
@@ -106,8 +105,8 @@
         <div v-if = "UsernameCheck == false">
           <v-alert type="error">Username ถูกใช้ไปแล้ว</v-alert>
         </div>
-          </div>
-        
+      
+        </div>
 </v-form>
       </v-card>
  
@@ -135,7 +134,7 @@ export default {
     Gender : [],
      registerCheck: false,
       clickRegister: false,
-      UsernameCheck: true
+      UsernameCheck: true,
       
   };
   },
@@ -177,20 +176,20 @@ export default {
          },
  
     SaveRe() {
-         
+          this.clickRegister = true;
       if (this.username==null || this.pw ==null|| 
         this.selectGender==null || this.name==null ||
         this.selectJob==null ||
         this.age==null|| this.selectCountry==null ||
         this.tel==null){
         //alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
-       this.clickRegister = true;
+       
       } else {
         this.checkUsername();
       }
     },
 
-    checkUsername() {
+    checkUsername() {this.registerCheckUsernae = false;
       http
         .get("/user/check/" + this.username)
         .then(res => {
@@ -198,8 +197,7 @@ export default {
             this.registered();}
             else{
              // alert("Username ถูกใช้ไปแล้ว")
-              this.UsernameCheck  = false;
-              
+             this.UsernameCheck=false;
             }
         })
         .catch(e => {
@@ -207,6 +205,7 @@ export default {
         });
     },
     registered() {
+      this.registerCheck = true;
          http
         .post("/user/" +
           this.username+"/"+this.pw+"/"+this.selectGender
@@ -215,7 +214,6 @@ export default {
           console.log(response);
           //alert("บันทึกข้อมูลสำเร็จ");
          // window.location.reload()
-          this.registerCheck = true;
         })
         .catch(e => {
           console.log(e);
@@ -237,6 +235,7 @@ export default {
   },
 };
 </script>
+
 <style>
 @import url('https://fonts.googleapis.com/css?family=Prompt&display=swap');
 
@@ -244,9 +243,5 @@ export default {
     font-family: 'Prompt', sans-serif;
   
     }
-   v-card{
-        font-family: 'Prompt', sans-serif;
-    }
-
 
 </style>
