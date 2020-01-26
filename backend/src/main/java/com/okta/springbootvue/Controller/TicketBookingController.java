@@ -42,17 +42,29 @@ public class TicketBookingController {
     }
 
     @GetMapping("/ticketBooking")
-    public Collection<TicketBooking> TicketBookings() {
+    public Collection<TicketBooking> ticketBookings() {
         return ticketBookingRepository.findAll().stream().collect(Collectors.toList());
     }
-    ///{movie_id}
-    @PostMapping("/ticketBooking/{user_id}/{movie_id}/{movie_date}/{movie_time}/{seat}")
+    /*
+    @GetMapping("/ticketBooking/check/{type}")
+        public TicketBooking checkTicketBooking(@PathVariable String type){
+        return ticketBookingRepository.findByType(type);
+    }   */
+    @GetMapping("/ticketBooking/{id}")
+    public Optional<TicketBooking> TicketBookigs(@PathVariable Long id) {
+        Optional<TicketBooking> ticketBooking = ticketBookingRepository.findById(id);
+        return ticketBooking;
+    }
+
+    
+    @PostMapping("/ticketBooking/{user_id}/{movie_id}/{movie_date}/{movie_time}/{seat}/{note}")
     public TicketBooking newTicketBookingl(TicketBooking newTicketBooking,
     @PathVariable long user_id,
     @PathVariable long movie_id,
     @PathVariable long movie_date,
     @PathVariable long movie_time,
-    @PathVariable long seat) {
+    @PathVariable long seat,
+    @PathVariable String note) {
         
    
 
@@ -63,13 +75,15 @@ public class TicketBookingController {
     ManageMovie date = manageMovieRepository.findById(movie_date);
     ManageMovie time = manageMovieRepository.findById(movie_time);
     SeatType type = seatTypeRepository.findById(seat);
+    
+   
 
     newTicketBooking.setUser(user);
-    newTicketBooking.setMovie(movie);
+    newTicketBooking.setMovie(movie); 
     newTicketBooking.setDate(date);
     newTicketBooking.setTime(time);
     newTicketBooking.setType(type);
-    newTicketBooking.setBookingDate(new Date());
+    newTicketBooking.setBookingDate(new Date()); 
     
 
     return ticketBookingRepository.save(newTicketBooking); //บันทึก Objcet ชื่อ TicketBooking
