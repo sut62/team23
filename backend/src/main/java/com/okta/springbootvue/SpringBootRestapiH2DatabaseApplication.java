@@ -24,7 +24,7 @@ public static void main(String[] args) {
 	GenderRepository genderRepository,EmployeeRepository employeeRepository,FoodRepository foodRepository, DrinkRepository drinkRepository,
 	DubRepository dubRepository, RoomRepository roomRepository, MovieTimeRepository movieTimeRepository,
 	MovieGenreRepository moviegenreRepository,MovieRateRepository movierateRepository,SystemTypeRepository systemtypeRepository,
-	SeatTypeRepository seatTypeRepository,PaymentOptionRepository paymentoptionRepository,BankRepository bankRepository) {
+	SeatTypeRepository seatTypeRepository,CardTypeRepository cardTypeRepository,BankRepository bankRepository) {
    
         return args -> {
 			Stream.of("ไทย","อินเดีย","จีน","บรูไน","ญี่ปุ่น","เกาหลีใต้").forEach(con -> {
@@ -158,13 +158,13 @@ public static void main(String[] args) {
 			seatTypeRepository.save(seatType);
 		});
 
-		Stream.of("Line pay","บัตรเครดิต","Paypal").forEach(name -> {
-			PaymentOption paymentoption = new PaymentOption(); // สร้าง Object Employee
-			paymentoption.setName(name); // set ชื่อ (name) ให้ Object ชื่อ Employee
-			paymentoptionRepository.save(paymentoption); // บันทึก Objcet ชื่อ Employee
+		Stream.of("VISA","MasrterCard","JCB").forEach(name -> {
+			CardType cardType = new CardType(); // สร้าง Object Employee
+			cardType.setName(name); // set ชื่อ (name) ให้ Object ชื่อ Employee
+			cardTypeRepository.save(cardType); // บันทึก Objcet ชื่อ Employee
 		});
 		
-		Stream.of("กสิกร","กรุงไทย","ไทยพาณิชย์").forEach(name -> {
+		Stream.of("KBank","KTB","SCB").forEach(name -> {
 			Bank bank = new Bank(); // สร้าง Object Employee
 			bank.setName(name); // set ชื่อ (name) ให้ Object ชื่อ Employee
 			bankRepository.save(bank); // บันทึก Objcet ชื่อ Employee
