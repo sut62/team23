@@ -7,13 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 @Entity
 public class MovieGenre{
     @Id
     @SequenceGenerator(name="genreseq",sequenceName="genreseq") 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="genreseq")
       private @NonNull Long genre_id;
-      private @NonNull String genre;
+      @NotNull
+      private String genre;
 
       public void setMovieGenre_id(Long genre_id){
         this.genre_id=genre_id;

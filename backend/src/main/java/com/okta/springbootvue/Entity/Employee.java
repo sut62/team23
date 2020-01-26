@@ -7,13 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 @Entity
 public class Employee{
     @Id
     @SequenceGenerator(name="employeeseq",sequenceName="employeeseq") 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="employeeseq")
       private @NonNull Long employee_id;
-      private @NonNull String employee;
+
+      @NotNull
+      private  String employee;
+      
       private @NonNull String username;
       private @NonNull String password;
 
