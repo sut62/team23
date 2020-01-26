@@ -11,7 +11,9 @@
      <v-col cols="4">
       <v-form v-model="valid" ref="form">
         <dir>
+        
           <v-row justify="center">
+          <v-text> "เฉพาะผู้ที่เป็นสมาชิกเท่านั้น" </v-text>
             <v-col cols="10">
               <v-text-field label="User ID"
               outlined
