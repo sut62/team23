@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     /* eslint-disable no-console */
-   
+    // ดึงข้อมูล VideoRental ใส่ combobox
     getTicketBookings() {
       http
         .get("/ticketBooking")

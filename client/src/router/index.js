@@ -16,6 +16,9 @@ import ViewMovieAddData from '../components/ViewMovieAddData.vue';
 import MoviePics from '../components/MoviePics.vue';
 import SearchPayment from "../components/SearchPayment.vue";
 import InformPaymentId from "../components/InformPaymentId.vue";
+import TicketData from  "../components/TicketData.vue";
+import FoodanddrinkData from  "../components/FoodanddrinkData.vue";
+
 
 Vue.use(Router);
 
@@ -85,6 +88,14 @@ export default new Router({
         {
             path: '/searchPayment',
             component: SearchPayment
+        },
+        {
+            path: '/TicketData',
+            component: TicketData
+        },
+        {
+            path: '/FoodanddrinkData',
+            component: FoodanddrinkData
         }
     ]
 });
