@@ -133,7 +133,7 @@
             <v-col cols="10">
                <v-textarea
                 outlined
-                label="ความยาวภาพยนตร์"
+                label="ความยาวภาพยนตร์(นาที)"
                 v-model="movieadd.length"
                 :rules="[(v) => !!v || 'กรุณากรอกข้อมูล']"
                 required
@@ -157,28 +157,13 @@
                   :rules="[(v) => !!v || 'กรุณาเลือกข้อมูล']"
                 ></v-select>
               </v-col>
+              </v-row>
 
-            </v-row>
-          <v-row justify="center">
-            <v-btn color="amber" @click="saveMovieAdd">บันทึก</v-btn>
-            <v-btn style="margin-left: 15px;" @click="clear">ยกเลิก</v-btn>
-          </v-row>
-          <div v-if = "clickSave == true">
+<div v-if = "clickSave == true">
           <div v-if = "movieaddCheck == true">
-        
           <v-row justify="center">
     <v-col cols="6">
-    <v-alert prominent
-      type="success"
-    >
-    
-      <v-row align="center">
-      
-        <v-col class="grow">
-          บันทึกสำเร็จ<br>
-        </v-col>
-      </v-row>
-    </v-alert>
+    <v-alert type="success">  บันทึกสำเร็จ</v-alert>
     </v-col>
     </v-row>
   </div>
@@ -190,8 +175,32 @@
           </v-col>
           </v-row>
         </div>
+
+       <div v-if = "nameCheck == ture">
+        <v-row justify="center">
+        <v-col cols="6">
+          <v-alert type="succes">!!</v-alert>
+          </v-col>
+          </v-row>
+        </div>
+
+        <div v-if = "nameCheck == false">
+        <v-row justify="center">
+        <v-col cols="6">
+          <v-alert type="error">ชื่อหนังเรื่องนี้ถูกใช้ไปแล้ว</v-alert>
+          </v-col>
+          </v-row>
+        </div>
       
         </div>
+
+
+          <v-row justify="center">
+            <v-btn style="margin-left: 15px;" color="amber" @click="saveMovieAdd">บันทึก</v-btn>
+            <v-btn style="margin-left: 15px;" color="green" @click="show">แสดงข้อมูล</v-btn>
+            <v-btn style="margin-left: 15px;" @click="clear">ยกเลิก</v-btn>
+          </v-row>
+          
 </v-container>
 </template>
 
@@ -219,6 +228,7 @@ export default {
       valid : false,
       clickSave : false,
       movieaddCheck : false,
+      nameCheck: false,
       employees : [],
       moviegenres : [],
       movierates : [],
@@ -291,6 +301,8 @@ export default {
           if (!res.data) {
             this.add();
           } else {
+            this.clickSave = true;
+          this.nameCheck = false;
             //alert("ชื่อหนังเรื่องนี้ถูกใช้แล้ว!");
           }
         })
@@ -330,7 +342,6 @@ export default {
           this.clickSave = true;
           this.movieaddCheck = true;
           //alert("บันทึกข้อมูลสำเร็จ");
-          this.$router.push("/viewmovieadddata");
         })
         .catch(e => {
           console.log(e);
@@ -340,6 +351,9 @@ export default {
     },
     clear() {
       this.$refs.form.reset();
+    },
+    show() {
+      this.$router.push("/viewmovieadddata");
     },
     refreshList() {
       this.getEmployees();
