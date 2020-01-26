@@ -32,6 +32,17 @@
             <v-list-item-title>ชำระเงิน</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+
+        <v-divider inset></v-divider>
+        <v-list-item @click="goSearchPayment">
+          <v-list-item-action>
+            <i class="material-icons">check_circle_outline</i>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>ตรวจสอบการชำระเงิน</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         
         
         <v-divider inset></v-divider>
@@ -85,6 +96,12 @@
               <PostPayment :user="user" />
              
             </template>
+
+            <template v-else-if="content === 'searchPayment'">
+               
+              <SearchPayment :user="user" />
+             
+            </template>
            
           <!-- </v-col> -->
         <!-- </v-row> -->
@@ -104,12 +121,15 @@ import http from "../http-common";
 import TicketBookingUI from "../components/TicketBookingUI";
 import PostPayment from "../components/PostPayment"
 import UserProfile from "../components/UserProfile"
+import SearchPayment from "../components/SearchPayment.vue";
+
 
 export default {
   components: {
     TicketBookingUI,
     PostPayment,
     UserProfile,
+    SearchPayment,
   },
   mounted() {
     this.user.id = this.$route.params.id;
@@ -140,6 +160,10 @@ export default {
     },
     goUserProfile() {
       this.content = "userhome";
+      this.drawer = false;
+    },
+    goSearchPayment(){
+      this.content = "searchPayment";
       this.drawer = false;
     },
     getUser() {
