@@ -96,17 +96,14 @@
     
     </table>
           <div v-if = "clickRegister == true">
-          <div v-if = "registerCheck == true">
             <v-alert type="success">Register Completed</v-alert>
           </div>
-        <div v-if = "registerCheck == false">
-          <v-alert type="error">Can't Register</v-alert>
-        </div>
-        <div v-if = "UsernameCheck == false">
-          <v-alert type="error">Username ถูกใช้ไปแล้ว</v-alert>
-        </div>
-      
-        </div>
+          <div v-if = "UsernameCheck == true">
+            <v-alert type="error">Username ถูกใช้ไปแล้ว!</v-alert>
+          </div>
+          <div v-if = "Enertnull == true">
+            <v-alert type="error">โปรดระบุข้อมูลให้ครบถ้วน</v-alert>
+          </div>
 </v-form>
       </v-card>
  
@@ -132,9 +129,9 @@ export default {
     Jobs : [],
     Country : [],
     Gender : [],
-     registerCheck: false,
-      clickRegister: false,
-      UsernameCheck: true,
+     clickRegister : false,
+      Enertnull: false,
+      UsernameCheck: false,
       
   };
   },
@@ -176,28 +173,26 @@ export default {
          },
  
     SaveRe() {
-          this.clickRegister = true;
       if (this.username==null || this.pw ==null|| 
         this.selectGender==null || this.name==null ||
         this.selectJob==null ||
         this.age==null|| this.selectCountry==null ||
         this.tel==null){
-        //alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
-       
+         this.Enertnull = true;
       } else {
         this.checkUsername();
       }
     },
 
-    checkUsername() {this.registerCheckUsernae = false;
+    checkUsername() {
       http
         .get("/user/check/" + this.username)
         .then(res => {
           if (!res.data) {
+            this.clickRegister = true;
             this.registered();}
             else{
-             // alert("Username ถูกใช้ไปแล้ว")
-             this.UsernameCheck=false;
+             this.UsernameCheck = true;
             }
         })
         .catch(e => {
@@ -205,19 +200,18 @@ export default {
         });
     },
     registered() {
-      this.registerCheck = true;
          http
         .post("/user/" +
           this.username+"/"+this.pw+"/"+this.selectGender
           +"/"+this.name+"/"+this.selectJob+"/"+this.age+"/"+this.selectCountry+"/"+this.tel)
         .then(response => {
           console.log(response);
-          //alert("บันทึกข้อมูลสำเร็จ");
-         // window.location.reload()
+
         })
         .catch(e => {
           console.log(e);
         });
+     
     },
   refreshList() {
     this.getUser();
