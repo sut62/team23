@@ -29,6 +29,8 @@
               </div>
             </v-col>
           </v-row>
+
+            
         <div v-if="userCheck">
           <v-row>
             <v-col cols="12">
@@ -78,15 +80,22 @@
                 <v-btn @click="saveFoodanddrink" :class="{ red: !valid, green: valid }">Submit</v-btn>
                 <v-btn style="margin-left: 15px;" @click="clear">clear</v-btn>
               </v-row>
-              <!--<div v-if = "clickSave == true">
-                <div v-if = "fdCheck == true">
-                  <v-alert type="success">Register Completed</v-alert>
-                </div>
-                <div v-if = "fdCheck == false">
-                  <v-alert type="error">Can't Register</v-alert>
-                </div>
-      
-              </div>-->
+
+              <div v-if = "Savedone == true">
+                <br>
+              <v-alert prominent type="success">
+                <v-row align="center">
+                  <v-col class="grow">
+                      บันทึกข้อมูลสำเร็จ<br>
+                  </v-col>
+                  <v-col class="shrink">
+                   <v-btn @click="CheckBuy" :class="font" >ตรวจสอบ</v-btn>
+                   </v-col>
+                 </v-row>
+              </v-alert>
+          </div>
+          <br>
+          <div v-if = "Alert == true"> <v-alert type="error">โปรดระบุข้อความให้ครบ</v-alert></div>
             </div>
           </dir>
         </v-form>
@@ -116,6 +125,10 @@ export default {
       food:[],
       drink:[],
       Employee:[],
+    Savedone: false,
+    Enternull: false,
+    Alert: false,
+
     };
   },
   methods: {
@@ -176,6 +189,10 @@ export default {
     },
     // function เมื่อกดปุ่ม บันทึก
     saveFoodanddrink() {
+      if(this.foodanddrink.userId==null||this.foodanddrink.food==null||this.foodanddrink.drink==null||this.foodanddrink.employee==null||this.notes==null){
+            this.Alert = true;
+            
+      }else{
       
       http
         .post(
@@ -194,14 +211,19 @@ export default {
         .then(response => {
           //this.clickSave = true; 
           console.log(response);
-          this.$router.push("/foodanddrinkData");
+          //this.$router.push("/foodanddrinkData");
           //alert("ทำการซื้อสำเร็จ");
+          this.Savedone = true;
           this.clear();
         })
         .catch(e => {
           console.log(e);
         });
       //this.submitted = true;
+      }
+    },
+    CheckBuy(){
+        this.$router.push("/foodanddrinkData");
     },
     clear() {
     this.$refs.form.reset();
