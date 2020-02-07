@@ -8,33 +8,11 @@
     </v-layout>
 
     <v-row justify="center">
-      <v-col cols="6">
-    <v-text-field
-   v-model="search"
-   
-   label="Search"
-    single-line
-    hide-details
-    prepend-icon="search"
-    >
-    </v-text-field>
-
-    </v-col>
-    </v-row>
-
-    <v-row justify="center">
-      <v-col cols="12">
-        
-        <v-data-table
-          :headers="headers"
-          :items="items"
-          :search="search"
-          hide-actions
-          class="elevation-1"
-        >
-  </v-data-table>
+      <v-col cols="8">
+        <v-data-table :headers="headers" :items="items" :items-per-page="5" class="elevation-1">
+        </v-data-table>
       </v-col>
-    </v-row>
+      </v-row>
     
     <v-row justify="center">
        <v-btn color="amber" @click="back">ย้อนกลับ</v-btn>
@@ -49,7 +27,6 @@ export default {
   data() {
     return {
       error: null,
-      search: '',
       headers: [
         {text: "Employee",value: "employee.employee"},
         { text: "Name",value: "name" },
