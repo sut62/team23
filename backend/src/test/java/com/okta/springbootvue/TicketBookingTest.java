@@ -6,44 +6,86 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.hibernate.exception.ConstraintViolationException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
-import java.util.*;
+import java.util.Date;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class TicketBookingTest{
-
-private Validator validator;
-
-@Autowired
-private TicketBookingRepository  ticketBookingRepository;
-
-@Autowired
-private SeatTypeRepository  seatTypeRepository;
-
-@Autowired
-private ManageMovieRepository  manageMovieRepository;
-
-@Autowired
-private UserRepository userRepository;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-@BeforeEach
-public void setup(){
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    validator = factory.getValidator();
-}
+@DataJpaTest
+public class TicketBookingTest {
 
-@Test
+    private Validator validator;
+
+    @Autowired
+    private TicketBookingRepository ticketBookingRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ManageMovieRepository manageMovieRepository;
+
+    @Autowired
+    private SeatTypeRepository seatTypeRepository;
+
+    @BeforeEach
+    public void setup() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
+
+    @Test
+    void B6007287_testDataOK(){
+        TicketBooking ticketBooking = new TicketBooking();
+        User user = userRepository.findById(1);
+        ManageMovie movie = manageMovieRepository.findById(1);
+        ManageMovie date = manageMovieRepository.findById(1);
+        ManageMovie time = manageMovieRepository.findById(1);
+        SeatType type = seatTypeRepository.findById(1);
+
+        ticketBooking.setUser(user);
+        ticketBooking.setMovie(movie);
+        ticketBooking.setDate(date);
+        ticketBooking.setTime(time);
+        ticketBooking.setType(type);
+        ticketBooking.setNote("note");
+
+        // Date bookingDate = new Date("2020-02-08");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd") ;
+        try {
+            Date bookingDate = formatter.parse("2020-02-08");
+           ticketBooking.setBookingDate(bookingDate) ;
+        } catch (ParseException e) {}
+
+        ticketBooking = ticketBookingRepository.save(ticketBooking);
+
+        Optional<TicketBooking> found = ticketBookingRepository.findById(ticketBooking.getId());
+
+        assertEquals(user, found.get().getUser());
+        assertEquals(movie, found.get().getMovie());
+        assertEquals(date, found.get().getDate());
+        assertEquals(time, found.get().getTime());
+        assertEquals(type, found.get().getType());
+        assertEquals("note", found.get().getNote());
+        try {
+            assertEquals(formatter.parse("2020-02-08"), found.get().getBookingDate());
+        } catch (ParseException e) {}
+    }
+    @Test
      void B6007287_testTicketBookingIdMustNotBeNull() {
          TicketBooking ticketBooking = new TicketBooking();
          ticketBooking.setId(null);
@@ -170,6 +212,26 @@ public void setup(){
     
      }
 
+    
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
