@@ -107,9 +107,9 @@
             </template>
             <v-sheet class="text-center" height="200px">
               <div v-if="checkSave==true" class="py-3" cols="12" lg="6" >
-              บันทึกสำเร็จ
+              บันทึกข้อมูลเสร็จสิ้น
               </div>
-              <div v-if="checkSave==false" class="py-3" cols="12" lg="6">ข้อมูลไม่ถูกต้องกรุณากรอกใหม่</div>
+              <div v-if="checkSave==false" class="py-3" cols="12" lg="6">กรุณากรอกข้อมูลให้ครบ</div>
               <v-btn color="red" text @click="alwayselect = false">Close</v-btn>
             </v-sheet>
           </v-bottom-sheet>
