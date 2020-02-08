@@ -163,7 +163,7 @@
           <div v-if = "movieaddCheck == true">
           <v-row justify="center">
     <v-col cols="6">
-    <v-alert type="success">  บันทึกสำเร็จ</v-alert>
+    <v-alert type="success">  บันทึกข้อมูลสำเร็จ</v-alert>
     </v-col>
     </v-row>
   </div>
@@ -171,7 +171,7 @@
         <div v-if = "movieaddCheck == false">
         <v-row justify="center">
         <v-col cols="6">
-          <v-alert type="error">บันทึกไม่สำเร็จ</v-alert>
+          <v-alert type="error">โปรดกรอกข้อมูลให้ครบ</v-alert>
           </v-col>
           </v-row>
         </div>
@@ -292,8 +292,8 @@ export default {
         });
     },
     add() {
-          this.clickSave = true;
-          this.movieaddCheck = true;
+          // this.clickSave = true;
+          // this.movieaddCheck = true;
          http
         .post(
           "/movieadd/" +
