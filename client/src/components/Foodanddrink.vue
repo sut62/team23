@@ -79,6 +79,7 @@
               <v-row justify="center">
                 <v-btn @click="saveFoodanddrink" :class="{ red: !valid, green: valid }">Submit</v-btn>
                 <v-btn style="margin-left: 15px;" @click="clear">clear</v-btn>
+                <v-btn style="margin-left: 15px;" @click="Check" :class="font" >ดูข้อมูลการขาย</v-btn>
               </v-row>
 
               <div v-if = "Savedone == true">
@@ -228,7 +229,10 @@ export default {
     clear() {
     this.$refs.form.reset();
     this.customerCheck = false;
-  },
+    },
+    Check(){
+        this.$router.push("/foodanddrinkData");
+    },
     refreshList() {
       this.getFood();
       this.getDrink();
