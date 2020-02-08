@@ -22,13 +22,13 @@
             
              <v-row justify="center">
               <v-col cols="6">
-              <v-text-field label="User ID"
+              <v-text-field label="user ID"
                 outlined
                 v-model="ticketBooking.userId"
                 :rules="[(v) => !!v || 'กรุณากรอกข้อมูล']"
                 required>
               </v-text-field>
-              <p v-if="userCheck != ''">User Name : {{userName}}</p>
+              <p v-if="userCheck != ''">username : {{userName}}</p>
                </v-col>
                  <v-col cols="2">
                    <div class="my-2">
@@ -101,57 +101,47 @@
                     required>
                   </v-text-field>
                 </v-col>
-              </v-row>
-
-                <br>
+              </v-row><br>
 
                 <v-row justify="center"> 
                 <v-btn @click="saveTicketBooking" :class="{ red: !valid, green: valid }">submit</v-btn>
-                <!-- <v-btn style="margin-left: 15px;" @click="clear">clear</v-btn> -->
-              </v-row> 
-              <br>
-
-
-                <br>
-
+                </v-row> <br> <br>
+              
           <div v-if = "clickBooking == true">
             <div v-if = "bookingCheck == true">
                <v-row justify="center">  
-              
                  <v-col cols="10"> 
-                <v-alert 
+                  <v-alert 
                    prominent
                    type="success">
-                  <v-row align="center">
-                   <v-col class="grow">
-                      จองตั๋วสำเร็จ<br>
-                  </v-col>
-                  <v-col class="shrink">
-                   <v-btn @click="ticketData " :class="font" >รายละเอียดการจองตั๋ว</v-btn>
-                  </v-col>
-                  
-                  </v-row>
-               </v-alert> 
-               </v-col> 
-             
-               </v-row>  
-            </div>
-          
-            <div v-if = "bookingCheck == false">
+                    <v-row align="center">
+                    <v-col class="grow">จองตั๋วสำเร็จ<br></v-col>
+                    <v-col class="shrink">
+                    <v-btn @click="ticketData " :class="font" >รายละเอียดการจองตั๋ว</v-btn>
+                    </v-col>
+                    </v-row>
+                  </v-alert> 
+                  </v-col> 
+                </v-row>  
+              </div>
+             <div v-if = "bookingCheck == false">
               <v-row justify="center">
               <v-col cols="10">
-                <v-alert type="error">จองตั๋วไม่สำเร็จ</v-alert>
+                <v-alert 
+                   prominent
+                   type="error">
+                    <v-row align="center">
+                    <v-col class="grow">จองตั๋วไม่สำเร็จ<br></v-col>
+                    <v-col class="shrink">
+                    <v-btn @click="ticketData " :class="font" >รายละเอียดการจองตั๋ว</v-btn>
+                    </v-col>
+                    </v-row>
+                  </v-alert>
               </v-col>
               </v-row>
+              </div>
             </div>
-          </div>
-
-
-
-
            </div>
-             
-         
         </v-form>
       </v-col>
     </v-row>
@@ -170,7 +160,6 @@ export default {
         userId: null,
         movieName: null,
         movieDay: null,
-        //date: new Date().toISOString().substr(0, 10),
         movieTime: null,
         seatType: null,
         note: null
@@ -228,21 +217,7 @@ export default {
           console.log(e);
         });
       this.submitted = true;
-    },  /*
-    checkType() {
-      http
-        .get("/ticketBooking/check/" + this.seatType)
-        .then(res => {
-          if (!res.data) {
-            this.saveTicketBooking();
-          } else {
-            alert("ที่นั่งถูกจองแล้ว");
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },  */
+    },  
     saveTicketBooking() { 
       this.clickBooking = true;
       this.bookingCheck = true;
@@ -260,7 +235,7 @@ export default {
         .then(response => {
           console.log(response);
           this.clickBooking = true;
-          this.bookingCheck = true;
+          this.bookingCheck = true; 
           //this.$router.push("/ticketData");
         })
         .catch(e => {
