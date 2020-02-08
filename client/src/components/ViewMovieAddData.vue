@@ -8,7 +8,7 @@
     </v-layout>
 
     <v-row justify="center">
-      <v-col cols="8">
+      <v-col cols="10">
         <v-data-table :headers="headers" :items="items" :items-per-page="5" class="elevation-1">
         </v-data-table>
       </v-col>
@@ -28,7 +28,7 @@ export default {
     return {
       error: null,
       headers: [
-        {text: "Employee",value: "employee.employee"},
+        { text: "Employee",value: "employee.employee"},
         { text: "Name",value: "name" },
         { text: "Genre",value: "movieGenre.movieGenre" },
         { text: "Synopsis",value: "synopsis"},
