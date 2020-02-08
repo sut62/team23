@@ -3,7 +3,7 @@
     <v-layout text-center wrap>
       <v-flex mb-4>
         <br />
-        <h1 class="display-2 font-weight-bold mb-3">ระบบเพิ่มภาพยนตร์</h1>
+        <h1 class="display-2 font-weight-bold mb-3">เพิ่มภาพยนตร์</h1>
       </v-flex>
     </v-layout>
 
