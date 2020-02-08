@@ -36,7 +36,7 @@
               </div>
             </v-col>
           </v-row>
-
+        
           <br>
 
 
@@ -60,10 +60,21 @@
                </div>
              </v-card-text>
            </v-card>
+           
              
              </v-col>
              </v-row>
             </div>
+
+            <div v-if = "Alert == true"> 
+              <v-row justify="center">
+              <v-col cols="6">
+              <v-alert type="error">ไม่พบข้อมูลการชำระเงิน
+                </v-alert>
+              </v-col>
+              </v-row>
+                </div>
+                
 
 
           </dir>
@@ -97,6 +108,7 @@ export default {
       valid: false,
       idCheck: false,
       cardHolderName: "",
+      Alert: false,
     };
   },
   methods: {
@@ -127,13 +139,17 @@ export default {
             this.cardHolderName = response.data.cardHolderName;
             this.idCheck = response.status;
           } else {
-            this.clear()
+            this.clear();
+            this.Alert = true;
+            
           }          
         })
         .catch(e => {
           console.log(e);
+          
         });
-      this.submitted = true;
+        this.Alert = false;
+      // this.submitted = true;
     },
 
     clear() {
