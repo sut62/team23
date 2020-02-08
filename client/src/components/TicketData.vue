@@ -13,6 +13,9 @@
         </v-data-table>
       </v-col>
     </v-row>
+    <v-row justify="center">
+       <v-btn color="purple lighten-4" @click="back">ย้อนกลับ</v-btn>
+    </v-row>
   </v-container>
 </template>
 
@@ -23,11 +26,10 @@ export default {
   data() {
     return {
       headers: [
-       // { text: "Movie", value: "movie.name" },
        { text: "Movie", value: "movie.movie.name" },
-        { text: "Date", value: "movie.date" },
-        { text: "Time", value: "movie.time.time" },
-          { text: "Seat", value: "type.seat" }
+       { text: "Date", value: "movie.date" },
+       { text: "Time", value: "movie.time.time" },
+       { text: "Seat", value: "type.seat" }
       ],
       items: []
     };
@@ -45,6 +47,9 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    back() {
+      this.$router.push("/ticketbooking");
     },
     refreshList() {
       this.getTicketBookings();
