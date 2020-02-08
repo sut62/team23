@@ -13,6 +13,10 @@
         </v-data-table>
       </v-col>
     </v-row>
+
+    <v-row justify="center">
+       <v-btn color="amber" @click="back">หน้าหลัก</v-btn>
+    </v-row>
   </v-container>
 </template>
 
@@ -53,6 +57,9 @@ export default {
         .catch(e => {
         console.log(e);
         });
+    },
+    back() {
+      this.$router.push("/empoyeehome");
     },
     refreshList() {
       this.getFoodanddrinks();
