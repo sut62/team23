@@ -175,6 +175,14 @@
           </v-col>
           </v-row>
         </div>
+
+        <div v-if = "nameCheck == false">
+        <v-row justify="center">
+        <v-col cols="6">
+          <v-alert type="error">ชื่อหนังเรื่องนี้ถูกใช้ไปแล้ว</v-alert>
+          </v-col>
+          </v-row>
+        </div>
       
         </div>
 
@@ -212,6 +220,7 @@ export default {
       valid : false,
       clickSave : false,
       movieaddCheck : false,
+      nameCheck : false,
       employees : [],
       moviegenres : [],
       movierates : [],
@@ -278,13 +287,14 @@ export default {
     },
 
     checkName() {
+      this.clickSave = true;
       http
         .get("/movieadd/check/" + this.movieadd.name)
         .then(res => {
           if (!res.data) {
             this.add();
           } else {
-            //alert("ชื่อหนังเรื่องนี้ถูกใช้แล้ว!");
+            this.nameCheck = false;
           }
         })
         .catch(e => {
