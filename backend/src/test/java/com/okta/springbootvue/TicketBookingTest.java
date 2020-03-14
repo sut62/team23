@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+ 
 @DataJpaTest
 public class TicketBookingTest {
 
@@ -47,6 +47,9 @@ public class TicketBookingTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
+
+
+    //==================== Integration Test for TicketBooking Class ====================
 
     @Test
     void B6007287_testDataOK(){
@@ -85,42 +88,104 @@ public class TicketBookingTest {
             assertEquals(formatter.parse("2020-02-08"), found.get().getBookingDate());
         } catch (ParseException e) {}
     }
-    @Test
+    @Test   //Test TicketBookingId Must Not be Null
      void B6007287_testTicketBookingIdMustNotBeNull() {
-         TicketBooking ticketBooking = new TicketBooking();
-         ticketBooking.setId(null);
-         ticketBooking.setNote("12345678901234567890123456789012345678901234567890");
+        TicketBooking ticketBooking = new TicketBooking();
+        User user = new User();
+        ManageMovie movie = new ManageMovie();
+        ManageMovie date = new ManageMovie();
+        ManageMovie time = new ManageMovie();
+        SeatType type = new SeatType();
+        ticketBooking.setId(null);
+        ticketBooking.setUser(user);
+        ticketBooking.setMovie(movie);
+        ticketBooking.setDate(date);
+        ticketBooking.setTime(time);
+        ticketBooking.setType(type);
+        ticketBooking.setNote("12345678901234567890123456789012345678901234567890");
         
-         String datetime = "2020-01-09 03:09:18";
-         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-         Date bookingDate = new Date();
-         try {
-             bookingDate = formatter.parse((String) datetime);
-         } catch (Exception e) {
-             System.out.println(e);
-         }
-         ticketBooking.setBookingDate(bookingDate);
+        String datetime = "2020-01-09 03:09:18";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date bookingDate = new Date();
+        try {
+            bookingDate = formatter.parse((String) datetime);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        ticketBooking.setBookingDate(bookingDate);
 
 
  
-         Set<ConstraintViolation<TicketBooking>> result = validator.validate(ticketBooking);
+        Set<ConstraintViolation<TicketBooking>> result = validator.validate(ticketBooking);
+        
+        // result ต้องมี error 1 ค่าเท่านั้น
+        assertEquals(1, result.size());
  
-         // result ต้องมี error 1 ค่าเท่านั้น
-         assertEquals(1, result.size());
- 
-         // error message ตรงชนิด และถูก field
-         ConstraintViolation<TicketBooking> v = result.iterator().next();
-         assertEquals("must not be null", v.getMessage());
-         assertEquals("id", v.getPropertyPath().toString());
+        // error message ตรงชนิด และถูก field
+        ConstraintViolation<TicketBooking> v = result.iterator().next();
+        assertEquals("must not be null", v.getMessage());
+        assertEquals("id", v.getPropertyPath().toString());
      
       }
 
-@Test
-    void B6007287_testNoteSizeMustBetween2and50() {
-         TicketBooking ticketBooking = new TicketBooking();
-         ticketBooking.setId(2345L);
-         ticketBooking.setNote("1");
+      @Test   //Test BookingDate Must Not be Null
+     void B6007287_testBookingDateMustNotBeNull() {
+        TicketBooking ticketBooking = new TicketBooking();
+        User user = new User();
+        ManageMovie movie = new ManageMovie();
+        ManageMovie date = new ManageMovie();
+        ManageMovie time = new ManageMovie();
+        SeatType type = new SeatType();
+        ticketBooking.setId(1L);
+        ticketBooking.setUser(user);
+        ticketBooking.setMovie(movie);
+        ticketBooking.setDate(date);
+        ticketBooking.setTime(time);
+        ticketBooking.setType(type);
+        ticketBooking.setNote("12345678901234567890123456789012345678901234567890");
         
+        String datetime = "2020-01-09 03:09:18";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date bookingDate = new Date();
+        try {
+            bookingDate = formatter.parse((String) datetime);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        ticketBooking.setBookingDate(null);
+
+
+ 
+        Set<ConstraintViolation<TicketBooking>> result = validator.validate(ticketBooking);
+        
+        // result ต้องมี error 1 ค่าเท่านั้น
+        assertEquals(1, result.size());
+ 
+        // error message ตรงชนิด และถูก field
+        ConstraintViolation<TicketBooking> v = result.iterator().next();
+        assertEquals("must not be null", v.getMessage());
+        assertEquals("bookingDate", v.getPropertyPath().toString());
+     
+      }
+
+      
+
+      @Test   //Test Note Size 2-50
+      void B6007287_testNoteSizeMustBetween2and50() {
+         TicketBooking ticketBooking = new TicketBooking();
+         User user = new User();
+         ManageMovie movie = new ManageMovie();
+         ManageMovie date = new ManageMovie();
+         ManageMovie time = new ManageMovie();
+         SeatType type = new SeatType();
+         ticketBooking.setId(1L);
+         ticketBooking.setUser(user);
+         ticketBooking.setMovie(movie);
+         ticketBooking.setDate(date);
+         ticketBooking.setTime(time);
+         ticketBooking.setType(type);
+         ticketBooking.setNote("1");
+         
          String datetime = "2020-01-09 03:09:18";
          SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
          Date bookingDate = new Date();
@@ -130,89 +195,169 @@ public class TicketBookingTest {
              System.out.println(e);
          }
          ticketBooking.setBookingDate(bookingDate);
-
-
  
+ 
+  
          Set<ConstraintViolation<TicketBooking>> result = validator.validate(ticketBooking);
- 
+         
          // result ต้องมี error 1 ค่าเท่านั้น
          assertEquals(1, result.size());
- 
+  
          // error message ตรงชนิด และถูก field
          ConstraintViolation<TicketBooking> v = result.iterator().next();
          assertEquals("Note must  between 2 and 50 characters", v.getMessage());
          assertEquals("note", v.getPropertyPath().toString());
-     
-      }
+      
+       }
 
-
-@Test
-    void B6007287_testSeatTypeMustNotBeNull(){
-         SeatType seatType= new SeatType();
-         seatType.setId(2345L);
-         seatType.setSeat(null);
-         seatType.setPrice(300);
-
-    
-         Set<ConstraintViolation<SeatType>> result = validator.validate(seatType);
-
+       @Test   //Test Note Size Should Not Be Shorter Than 2
+      void B6007287_testNoteShouldNotBeShorterThan2() {
+         TicketBooking ticketBooking = new TicketBooking();
+         User user = new User();
+         ManageMovie movie = new ManageMovie();
+         ManageMovie date = new ManageMovie();
+         ManageMovie time = new ManageMovie();
+         SeatType type = new SeatType();
+         ticketBooking.setId(1L);
+         ticketBooking.setUser(user);
+         ticketBooking.setMovie(movie);
+         ticketBooking.setDate(date);
+         ticketBooking.setTime(time);
+         ticketBooking.setType(type);
+         ticketBooking.setNote("1");
+         
+         String datetime = "2020-01-09 03:09:18";
+         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         Date bookingDate = new Date();
+         try {
+             bookingDate = formatter.parse((String) datetime);
+         } catch (Exception e) {
+             System.out.println(e);
+         }
+         ticketBooking.setBookingDate(bookingDate);
+ 
+ 
+  
+         Set<ConstraintViolation<TicketBooking>> result = validator.validate(ticketBooking);
+         
          // result ต้องมี error 1 ค่าเท่านั้น
          assertEquals(1, result.size());
+  
+         // error message ตรงชนิด และถูก field
+         ConstraintViolation<TicketBooking> v = result.iterator().next();
+         assertEquals("Note must  between 2 and 50 characters", v.getMessage());
+         assertEquals("note", v.getPropertyPath().toString());
+      
+       }
 
-          // error message ตรงชนิด และถูก field
-   
+       @Test   //Test Note Size Should Not Be Greater Than 50
+      void B6007287_testNoteShouldNotBeGreaterThan50() {
+         TicketBooking ticketBooking = new TicketBooking();
+         User user = new User();
+         ManageMovie movie = new ManageMovie();
+         ManageMovie date = new ManageMovie();
+         ManageMovie time = new ManageMovie();
+         SeatType type = new SeatType();
+         ticketBooking.setId(1L);
+         ticketBooking.setUser(user);
+         ticketBooking.setMovie(movie);
+         ticketBooking.setDate(date);
+         ticketBooking.setTime(time);
+         ticketBooking.setType(type);
+         ticketBooking.setNote("123456789012345678901234567890123456789012345678901");
+         
+         String datetime = "2020-01-09 03:09:18";
+         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         Date bookingDate = new Date();
+         try {
+             bookingDate = formatter.parse((String) datetime);
+         } catch (Exception e) {
+             System.out.println(e);
+         }
+         ticketBooking.setBookingDate(bookingDate);
+ 
+ 
+  
+         Set<ConstraintViolation<TicketBooking>> result = validator.validate(ticketBooking);
+         
+         // result ต้องมี error 1 ค่าเท่านั้น
+         assertEquals(1, result.size());
+  
+         // error message ตรงชนิด และถูก field
+         ConstraintViolation<TicketBooking> v = result.iterator().next();
+         assertEquals("Note must  between 2 and 50 characters", v.getMessage());
+         assertEquals("note", v.getPropertyPath().toString());
+      
+       }
+
+
+
+
+
+
+
+
+
+       //==================== Integration Test for  SeatType Class ====================
+
+
+       @Test   //Test SeatTypeId Must Not Be Null 
+      void B6007287_testSeatTypeIdMustNotBeNull() {
+         SeatType seatType = new SeatType();
+         seatType.setId(null);
+         seatType.setSeat("A1");
+         seatType.setPrice(300);
+
+         Set<ConstraintViolation<SeatType>> result = validator.validate(seatType);
+         
+         // result ต้องมี error 1 ค่าเท่านั้น
+         assertEquals(1, result.size());
+  
+         // error message ตรงชนิด และถูก field
          ConstraintViolation<SeatType> v = result.iterator().next();
          assertEquals("must not be null", v.getMessage());
-         assertEquals("seat", v.getPropertyPath().toString());
-   
-}
-
-@Test 
-    void B6007287_testSeatTypeMustMatchPatternAorBand1Num(){
-         SeatType seatType = new SeatType();
-         seatType.setId(2345L);
-         seatType.setSeat("N65");
-         seatType.setPrice(300);
-
-
-         Set<ConstraintViolation<SeatType>> result = validator.validate(seatType);
-
-         // result ต้องมี error 1 ค่าเท่านั้น
-         assertEquals(1, result.size());
-
-         // error message ตรงชนิด และถูก field
-   
-         ConstraintViolation<SeatType> v = result.iterator().next();
-         assertEquals("must match \"[AB]\\d{1}\"", v.getMessage());
-         assertEquals("seat", v.getPropertyPath().toString());
-    
-  
-}
-
-
-    @Test
-    void B6007287_testSeatPriceShouldNotBeGreaterThanMax300() {
-         SeatType seatType= new SeatType();
-         seatType.setId(2345L);
-         seatType.setSeat("A1");
-         seatType.setPrice(500);
-
-       
+         assertEquals("id", v.getPropertyPath().toString());
       
+       }
 
-         Set<ConstraintViolation<SeatType>> result = validator.validate(seatType);
+       @Test   //Test SeatType Pattern [A,B] and [1,2,3] 
+       void B6007287_testSeatTypeMustMatchPatternAorBand1Num() {
+          SeatType seatType = new SeatType();
+          seatType.setId(1L);
+          seatType.setSeat("T39");
+          seatType.setPrice(300);
+ 
+          Set<ConstraintViolation<SeatType>> result = validator.validate(seatType);
+          
+          // result ต้องมี error 1 ค่าเท่านั้น
+          assertEquals(1, result.size());
+   
+          // error message ตรงชนิด และถูก field
+          ConstraintViolation<SeatType> v = result.iterator().next();
+          assertEquals("must match \"[AB]\\d{1}\"", v.getMessage());
+          assertEquals("seat", v.getPropertyPath().toString());
+       
+        }
 
-         // result ต้องมี error 1 ค่าเท่านั้น
-         assertEquals(1, result.size());
+        @Test   // Test Price Should Not Be Greater Than 300
+        void B6007287_testSeatPriceShouldNotBeGreaterThan(){
+            SeatType seatType = new SeatType();
+            seatType.setId(1L);
+            seatType.setSeat("A3");
+            seatType.setPrice(500);
 
-         // error message ตรงชนิด และถูก field
-         ConstraintViolation<SeatType> v = result.iterator().next();
-         assertEquals("Price should not be greater than 300", v.getMessage());
-         assertEquals("price", v.getPropertyPath().toString());
-    
-     }
+            Set<ConstraintViolation<SeatType>> result = validator.validate(seatType);
 
-    
+        // result ต้องมี error 1 ค่าเท่านั้น
+          assertEquals(1, result.size());
+   
+          // error message ตรงชนิด และถูก field
+          ConstraintViolation<SeatType> v = result.iterator().next();
+          assertEquals("Price should not be greater than 300", v.getMessage());
+          assertEquals("price", v.getPropertyPath().toString());
+
+        }
+
 
 
 
