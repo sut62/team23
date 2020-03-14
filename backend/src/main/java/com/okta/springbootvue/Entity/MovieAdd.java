@@ -24,7 +24,7 @@ public class MovieAdd{
         private  String name;
         
         @NotNull
-        @Size(min = 10, max = 500, message = "Synopsis must be between 10 and 500 characters")
+        @Size(min = 10, max = 100, message = "Synopsis must be between 10 and 100 characters")
         private String synopsis;
 
         private @NotNull String director;
@@ -38,13 +38,13 @@ public class MovieAdd{
         private @NotNull int length;
         
 @ManyToOne
-private Employee employee;
+private @NotNull Employee employee;
 @ManyToOne
-  private MovieGenre genre;
+  private @NotNull MovieGenre genre;
 @OneToOne
-  private MovieRate rate;
+  private @NotNull MovieRate rate;
 @ManyToOne
-private SystemType systemtype;
+private @NotNull SystemType systemtype;
 
   public void setId(Long id){
     this.id = id;
